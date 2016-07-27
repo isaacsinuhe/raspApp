@@ -1,0 +1,665 @@
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ASISA Smart House</title>
+
+    <!-- Bootstrap desde la NUBE-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+    <!--Este es el link para Bootstrap Local-->
+    <link href="stylesheets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="stylesheets/css/style.css" rel="stylesheet">
+
+   <!-- Importamos el módulo socket.io -->
+   <script src="/socket.io/socket.io.js"></script>
+
+   <script src="http://code.highcharts.com/stock/highstock.js"></script>
+   <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+  
+
+   <style>
+     html, body{
+	font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #676a6c;
+	height: 100%;}
+
+	#side-menu{
+		background-color: #2f4050;
+		padding: 0px;}
+	
+	#side-menu h1{
+		color: #fff;
+		text-align: center;
+		margin: 10px 0px;
+		font-size: 25px;}
+	
+	#side-menu h1 a {
+	    display: inline-block;
+	    border: 1px solid #ddd;
+	    border-radius: 4px;
+	    padding: 5px;
+	    transition: 0.3s;}
+	
+	#side-menu ul{
+		list-style: none;
+		margin: 0px;
+		padding: 0px;}
+	
+	#side-menu a{
+		padding: 12px 20px;
+		text-decoration: none;
+		color: #9fb1c2;
+		font-weight: bold;
+		font-size: 13px;
+		display: block;}
+	
+	#side-menu .glyphicon{
+		margin-right: 6px;}
+	
+	#side-menu a:hover{
+		background-color: #293846;
+		color: #fff;
+		display: block;}
+	
+	#side-menu .active a{
+		color: #fff;
+		background-color: #293846;}
+	
+	#side-menu .settings-btn{
+		background-color: #1ab394;}
+	
+	#side-menu .settings-btn a{
+		color: #fff;}
+	
+	#side-menu .settings-btn a:hover{
+		background-color: #1ab394;}
+	
+	#sie-menu .collapsable li{
+		padding-left: 20px;
+		padding-top: 5px;}
+	
+	#side-menu .collapsable a{
+		color: #9fb1c2;
+		font-size: 12px;
+		padding: 0px 10px;
+		text-decoration: none;
+		display: block;}
+	
+	#side-menu .collapsable a:hover{
+		color: #fff;}
+	
+	#side-menu .collapsable{
+		border-left: 4px solid #1ab394;
+		background-color: #293846;}
+	
+	#side-menu .link > ul > li{
+		padding-bottom: 10px;}
+	
+	.display-table{
+		display: table;
+		padding: 0px;
+		height: 100%;
+		width: 100%;}
+	
+	.display-table-row{
+		display: table-row;
+		height: 100%;}
+	
+	.display-table-cell{
+		display: table-cell;
+		float: none;
+		height: 100%;}
+	
+	.valign-top{
+		vertical-align: top;}
+	
+	#nav-header{
+		background-color: #fff;
+		border-bottom: ipx solid #e7eaec;}
+	
+	#nav-header #header-search-field{
+		padding-top: 17px;
+		vertical-align: center;
+		border: none;
+		width: 300px;
+		outline: none;}
+	
+	#nav-header ul{
+		margin: 0px;
+		padding: 0px;
+		list-style: none;
+		color: #676a6c;}
+	
+	#nav-header ul li{
+		float: left;
+		margin-left: 15px;
+		padding: 17px 0px;}
+	
+	#nav-header ul .glyphicon {
+		color: #1ab394;}
+	
+	.label-message{
+		background-color: #1ab394;}
+	
+	#nav-header ul a{
+		text-decoration: none;}
+	
+	#nav-header .logout{
+		color: #fff;}
+	
+	#nav-header .logout:hover{
+		color: #fff;}
+	
+	#nav-header #welcome{
+		text-align: center;
+		color: #fff;}
+	
+	#nav-header ul .label{
+		position: absolute;
+		margin-top: -10px;
+		margin-left: -5px;}
+	
+	#nav-header ul .fixed-width{
+		width: 35px;}
+	
+	#admin-footer{
+		position: absolute;
+		width: 100%;
+		bottom: 0px;
+		background-color: #fff;
+		padding: 10px;
+		font-size: 12px;
+		color: #676a6c;}
+	
+	.navbar-default{
+		background-color: #2f4050;}
+	
+	.navbar-default .navbar-toggle{
+		border-color: #1ab394;
+		background-color: #1ab394;}
+	
+	.navbar-default .icon-bar{
+		border: 1px white solid;}
+	
+	.navbar-default .navbar-toggle:hover{
+		background-color: #1ab394;}
+	
+	.navbar-default .navbar-toggle:focus{
+		background-color: #1ab394;}
+	
+	#content {
+		margin: 20px 0px 50px 0px;
+		background-color: #fff;
+		border-top: #e7eaec;}
+	
+	#content header{
+		border-bottom: 1px #f3f3f4 solid;
+		padding: 10px 0px;}
+	
+	.page_title{
+		font-size: 14px;
+		font-weight: bold;
+		padding: 0px 0px 0px 20px;
+		margin: 0px;}
+	
+	.content-inner{
+		padding: 20px;}
+    </style>
+
+  </head>
+
+  <body>
+    <div class="container-fluid display-table">
+      <div class="row display-table-row">
+        <!--side menu -->
+          <div class="col-md-2 col-sm-2 hidden-xs display-table-cell valign-top" id="side-menu">
+    	    <ul>
+    	      <li class="link active">
+    	        <a href="index.html">
+		  <span aria-hidden="true"></span>
+    		  <span class="hidden-xs hidden-sm">Dashboard</span>
+    		</a>
+    	      </li>
+   		
+    	      <li class="link">
+    	        <a href="#collapse-post" data-toggle="collapse" aria-controls="collapse-post">
+    		  <span aria-hidden="true"></span>
+    		  <span class="hidden-xs hidden-sm">Monitoreo Raspberry</span>
+    		</a>
+    	        <ul class="collapse collapsable" id="collapse-post">
+	          <li>
+	    	    <a href="memoriaRaspBerry.html">Memoria RaspBerry</a>
+	          </li>
+	    	  <li>
+	    	    <a href="tempCPU.html">Temperatura y CPU</a>
+	    	  </li>
+    	        </ul>
+              </li>
+
+    	      <li class="link">
+    	        <a href="#collapse-comments" data-toggle="collapse" aria-controls="collapse-comments">
+    		  <span aria-hidden="true"></span>
+    		  <span class="hidden-xs hidden-sm">Monitorèo del Hogar</span>
+    		</a>
+    		<ul class="collapse collapsable" id="collapse-comments">
+	    	  <li>
+	    	    <a href="tempHumHogar.html">Temperatura y Humedad</a>
+	    	  </li>
+
+	    	  <li>
+	    	    <a href="gas.html">Detector de Gas</a>
+	    	  </li>
+    		</ul>
+    	      </li>
+
+    	      <li class="link">
+    	        <a href="#collapse-controlcasa" data-toggle="collapse" aria-controls="collapse-controlcasa">
+    		  <span aria-hidden="true"></span>
+    		  <span class="hidden-xs hidden-sm">Control del Hogar</span>
+    		</a>
+    	        <ul class="collapse collapsable" id="collapse-controlcasa">
+	    	  <li>
+	    	    <a href="iluminacion.html">Iluminaciòn</a>
+	    	  </li>
+
+	    	  <li>
+	    	    <a href="bombaAgua.html">Bomba de Agua</a>
+	    	  </li>
+    		</ul>
+    	      </li>
+    			
+    	      <li class="link settings-btn">
+    	        <a href="configuracion.html">
+    		  <span aria-hidden="true"></span>
+    		  <span class="hidden-xs hidden-sm">Configuración</span>
+    		</a>
+    	      </li>
+    	    </ul>
+          </div>
+    		
+
+          <!-- CONTENIDO DEL MAIN -->
+    	
+          <div class="col-md-10 col-sm-10 display-table-cell valign-top">
+	    <div class="row">
+	      <header id="nav-header" class="clearfix">
+                <nav class="navbar-default pull-left">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                  </nav>
+
+	        <div class="col-md-11">
+	  		<center><h1>Bienvenido al sistema de administración del hogar de ASISA</h1></center>
+	    	</div>
+
+	    	<div class="col-md-1">
+	    	  <ul class="pull-right">
+	    	    <li>
+	      		<center><img src="/images/logoasisa.png" alt="ASISA" style="width:50px;height:50px;"></center>
+	    	    </li>
+	    	  </ul>
+	    	</div>
+	      </header>
+		<hr>
+	    </div>	
+	
+        	<center><h1>DASHBOARD</h1></center>
+
+		<!--CONTENIDO DE LOS COMPONENTES-->
+	 
+					  <div class="row">
+					      <div class="col-lg-6">
+					        <div class="panel panel-primary">
+					          <div class="panel-heading">Información General</div>
+					          <div class="panel-body">
+						    <p  id="p_hostname">Info de la rasp</p>
+					            <p  id="p_kernel"></p>
+					            <p  id="p_uptime"></p>
+					            <div>
+					                <b>Procesos Top:</b>
+					                <ol id="toplist">
+					                </ol>
+					            </div>
+					          </div>
+					        </div>
+					      </div>
+
+					   <div class="row">
+                                              <div class="col-lg-6">
+                                                <div class="panel panel-success">
+                                                  <div class="panel-heading">Detector de GAS</div>
+                                                  <div class="panel-body">
+                                                    <p  id="g"></p>
+                                                  </div>
+                                                </div>
+                                            </div>
+				         </div>
+
+				          <div class="row">
+				  	    <div class="col-lg-12">
+       						 <div id="chartMemory" style="min-width: 100; height:250px; margin: 0 auto"></div>
+					    </div>
+     				          </div>
+					 
+					
+					  <div class="row">
+					      <div class="col-lg-6">
+					        <div class="container" id="chart" style="width:100%; height:300px;"></div>
+					      </div>
+					      <div class="col-lg-6">
+					        <div class="container" id="cpu_usage" style="width:100%; height:300px;"></div>
+					      </div>
+					  </div>
+					
+					  <div class="row">
+					      <div class="col-lg-6">
+					        <div class="container" id="h" style="width:100%; height:300px;"></div>
+					      </div>
+					      <div class="col-lg-6">
+					        <div class="container" id="t" style="width:100%; height:300px;"></div>
+					      </div>
+					 </div>
+
+
+	    <footer id="admin-footer" class="clearfix">
+	      <div class="pull-left">
+	        <b>Copyright </b>&copy; 2016
+	      </div>
+
+	      <div class="pull-right">
+	        <b>Isaac y Joan</b>
+	      </div>
+	    </footer>
+        </div>
+        
+
+<!-- Comienza el Javascript -->
+    <script>
+    // Creo un WebSocket. ¡Poned la IP de vuestra Raspberry Pi!
+    var socket = io.connect('http://'+ location.host);
+    // console.log(location.host)
+    // Creo un nuevo objeto 'Chart'
+    var chart, chartCPU, chartHum, chartTemp, chartMem, memTotal, chartProx;
+
+
+    chart = new Highcharts.StockChart({
+        chart: {
+            renderTo: 'chart',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('temperatureUpdate', function (time, data) {
+                        var series = chart.series[0];
+                        series.addPoint([time, data]);
+                    });
+                }
+            }
+        },
+        rangeSelector : {
+            selected : 100
+        },
+        title: {
+            text: 'Temp de Rasp'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: 'Temperatura de Rasp ºC',
+                margin: 10
+            }
+        },
+        series: [{
+            name: 'Temperatura de Rasp',
+            data: []
+        }],
+        credits: {
+                enabled: false
+        }
+    });
+
+      chartCPU = new Highcharts.StockChart({
+        chart: {
+            renderTo: 'cpu_usage',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('cpuUsageUpdate', function (time, data) {
+                        var series = chartCPU.series[0];
+                        series.addPoint([time, data]);
+                    });
+                }
+            }
+        },
+        rangeSelector : {
+            selected : 100
+        },
+        title: {
+            text: 'CPU de Rasp'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: 'CPU(%)',
+                margin: 10
+            }
+        },
+        series: [{
+            name: 'CPU',
+            data: []
+        }],
+        credits: {
+                enabled: false
+        }
+    });
+
+      chartHum = new Highcharts.StockChart({
+        chart: {
+            renderTo: 'h',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('humedad', function (data, time) {
+                        var series = chartHum.series[0];
+                        series.addPoint([time, data]);
+                    });
+                }
+            }
+        },
+        rangeSelector : {
+            selected : 100
+        },
+        title: {
+            text: 'Humedad de la casita'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: 'Humedad de la Jaus',
+                margin: 10
+            }
+        },
+        series: [{
+            name: 'Humedad',
+            data: []
+        }],
+        credits: {
+                enabled: false
+        }
+    });
+
+      chartTemp = new Highcharts.StockChart({
+        chart: {
+            renderTo: 't',
+            defaultSeriesType: 'spline',
+            events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('temperatura', function (data, time) {
+                        var series = chartTemp.series[0];
+                        series.addPoint([time, data]);
+                    });
+                }
+            }
+        },
+        rangeSelector : {
+            selected : 100
+        },
+        title: {
+            text: 'Temperatura de la Casa'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,
+            maxZoom: 20 * 1000
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: 'Temperatura de la Jaus',
+                margin: 10
+            }
+        },
+        series: [{
+            name: 'Temperatura',
+            data: []
+        }],
+        credits: {
+                enabled: false
+        }
+    });
+
+
+chartMem = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chartMemory',
+                type: 'bar',
+                events: {
+                load: function() {
+                    // Cada vez que reciba un valor desde el socket, lo meto en la gráfica
+                    socket.on('memoryUpdate', function (free, used, buffered, cached) {
+                        chartMem.series[0].setData([
+                          {y: used, color: 'red'},
+                          {y: free, color: 'green'},
+                          {y: buffered, color: 'blue'},
+                          {y: cached, color: 'orange'}
+                        ]);
+                      });
+                    }
+                  }
+            },
+            title: {
+                text: 'Memoria '
+            },
+            xAxis: {
+                categories: ['Used', 'Free', 'Buffered', 'Cached'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "Porcentaje",
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' %'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: "Memoria",
+                data: [{y: 0, color: 'red'}, {y: 0, color: 'green'}, {y: 0, color: 'blue'}, {y: 0, color: 'orange'}]
+            }]
+        });
+
+    
+
+        socket.on('gas', function(value, time){
+          var valor = (value)?"si":"no";
+          document.getElementById("g").innerHTML = "<h1><b>Hay fuga de gas? : </b>" + valor + "</h1>";
+        });
+
+        socket.on('hostname', function (hname) {
+          document.getElementById("p_hostname").innerHTML="<b>Nombre de la rasp:</b> "+hname;
+        });
+        socket.on('kernel', function (ker) {
+          document.getElementById("p_kernel").innerHTML="<b>Kernel:</b> "+ker;
+        });
+        socket.on('uptime', function (uptime) {
+          document.getElementById("p_uptime").innerHTML="<b>Up time:</b> "+ uptime;
+        });
+        socket.on('toplist', function (toplist) {
+            var res = toplist.split("\n");
+            var result = "";
+            for (r in res) {
+            	if (res[r] != "") {
+                	result = result + "<li>" + res[r] + "</li>"
+        		}
+            }
+            document.getElementById("toplist").innerHTML=result;
+        });
+        socket.on('memoryTotal', function (mem) {
+          //memTotal.setTitle({text:"Memory: "+mem+" KB"});-------------------->>>CHECAR
+          memTotal = mem;
+        });
+    </script>
+    
+    <!--Este es el archivo local de Jquery-->	   
+    <script src="javascripts/js/jquery-1.12.4.min.js"></script>
+   
+    <!--Este es el archivo local de Bootstrap.js-->
+    <script src="javascripts/js/bootstrap.min.js"></script>
+
+    <!--Este es el archivo en la NUBE de Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" 
+    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	 
+
+    <!--Este es el archivo para el Script del panel-->
+    <script src="javascripts/panelScript.js"></script>
+  </body>
+</html>
+
