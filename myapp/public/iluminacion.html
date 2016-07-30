@@ -27,22 +27,24 @@
     </script>
 
     <script>
-        function relay1On(){
-          socket.emit('relay1', 'on');
+    function relay1On(){
+      socket.emit('relay1', 'on');
+       	document.getElementById("estado1").innerHTML = "Encendida";
+    }
+    function relay1Off(){
+      socket.emit('relay1', 'off');
+	document.getElementById("estado1").innerHTML = "Apagada";
+    }
 
-        }
-        function relay1Off(){
-          socket.emit('relay1', 'off');
-        }
-
-        function relay2On(){
-          socket.emit('relay2', 'on');
-
-        }
-        function relay2Off(){
-          socket.emit('relay2', 'off');
-        }
-    </script>
+    function relay2On(){
+      socket.emit('relay2', 'on');
+	document.getElementById("estado2").innerHTML = "Encendida";
+    }
+    function relay2Off(){
+      socket.emit('relay2', 'off');
+	document.getElementById("estado2").innerHTML = "Apagada";
+    }
+    </script>  
 
     <style>
      html, body{
@@ -334,8 +336,12 @@
                 <hr>
             </div>
 
+	     <div class="row">
+		<center><h4>Linea de Iluminaciòn 1</h4></center>
+		<center><h4 id="estado1">Estado</h4></center>
+	    </div>
  	    <div class="row">
-		<div class="jumbotron">
+		<div class="jumbotron" id="jumbo1">
 	      	  <center><input class="btn btn-success btn-lg" type="button" name="on" id="onButton" value="Prender" onClick="relay1On();">
 	     	  <input class="btn btn-danger btn-lg" type="button" name="on" id="offButton" value="Apagar" onClick="relay1Off();"></center>
             	</div>
@@ -343,12 +349,19 @@
 
 	    <hr>
 
+	     <div class="row">
+		<center><h4>Linea de Iluminaciòn 2</h4></center>
+		<center><h4 id="estado2">Estado</h4></center>
+	    </div>
 	    <div class="row">
-	      <div class="jumbotron">
+	      <div class="jumbotron" id="jumbo2">
 	        <center><input class="btn btn-success btn-lg" type="button" name="on" id="onButton" value="Prender" onClick="relay2On();">
 	        <input class="btn btn-danger btn-lg" type="button" name="on" id="offButton" value="Apagar" onClick="relay2Off();"></center>
 	      </div>
             </div>
+<<<<<<< HEAD
+
+=======
 
 	    <hr>
 
@@ -356,6 +369,7 @@
 
 	    <br>
 
+>>>>>>> cdf69a38fb20ac018503ec20b91ab7a378edfb1a
 
 	  <footer id="admin-footer" class="clearfix">
 	    <div class="pull-left">

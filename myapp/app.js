@@ -101,6 +101,110 @@ var relay3 = new GPIOS(19, 'out');
 var relay4 = new GPIOS(20, 'out');
 //Fin CONTROL relays
 
+//MONGO DB
+
+//variables para la conexiòn con la BD
+
+var MongoClient = require ('mongodb').MongoClient, 
+assert = require('assert');
+var ObjectId = require('mongodb').ObjectID;
+var url = 'mongodb://localhost:27017/raspberry';
+
+//funciòn para conectar con la Base de Datos
+
+MongoClient.connect(url, function(err, db){
+
+	assert.equal(null,err);
+	console.log("Conectado correctamente al servidor de Base de Datos raspberry");
+
+	db.close();
+});
+
+//Funciòn para insertar la collection a la Base de Datos -- YA INSERTADOS
+/*
+var insertarDocumentos = function(db, callback) {
+   db.collection('raspberry').insertOne( {
+      "datosRaspBerry" : {
+         "nombre" : "pi",
+         "mac" : "b8:27:eb:e4:91:38",
+         "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
+     	 "uptime" : ""
+	 },
+      "statusRaspBerry" : {
+	 "memTotal" : "",
+	 "memLibre" : "",
+	 "memUsada" : "",
+	 "memCache" : "",
+	 "memBuffer" : "",
+	 "cpuUsage" : "",
+	 "cpuTemp" : "",
+	 "daemons" : ""
+         },
+      "statusCasa" : {
+	 "casaTemp" : "",
+	 "casaHum" : "",
+	 "gas" : "",
+	 "relay1" : "",
+  	 "relay2" : "",
+ 	 "relay3" : "",
+	 "relay4" : ""
+	 },
+	},
+    function(err, result) {
+    assert.equal(err, null);
+    console.log("Se insertaron los documentos dentro de la coleciòn raspberry!!");
+    callback();
+  });
+};
+
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  insertarDocumentos(db, function() {
+      db.close();
+  });
+});
+*/
+//Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
+
+var recuperarBD = function(db, callback) {
+   var cursor = db.collection('raspberry').find( );
+   cursor.each(function(err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+         console.dir(doc);
+      } else {
+         callback();
+      }
+   });
+};
+
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  recuperarBD(db, function() {
+      db.close();
+  });
+});
+
+//Funciòn para remover colecciòn de la Base de Datos
+/*
+var removerBD = function(db, callback) {
+   db.collection('raspberry').deleteMany( {}, function(err, results) {
+      console.log(results);
+      callback();
+   });
+};
+
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+
+  removerBD(db, function() {
+      db.close();
+  });
+});
+*/
+
+//Fin MONGO DB
+
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
 //Cada X segundos mandaremos a la gráfica un nuevo valor.
 io.sockets.on('connection', function(socket) {
@@ -116,9 +220,11 @@ io.sockets.on('connection', function(socket) {
   socket.on('relay1', function (data) {
     console.log("Relay 1: " +data);
     if (data == 'on'){
-        relay1.writeSync(1);
+          relay1.writeSync(1);
+ 
     }else{
-        relay1.writeSync(0);    }
+        relay1.writeSync(0);
+    }
   });
 
   //usa GPIO 18 para encender/apagar relay 2
@@ -308,16 +414,25 @@ sensor.read();
 }, 2000);
 
 setInterval(function(){
+  try{
   gpio.setup(10, gpio.DIR_IN, readInput);
+     }catch(err){
+   	console.log("error en el detector de gas");
+    }
 
+  try{
   function readInput(){
     gpio.read(10, function(err, value){
       var date = new Date().getTime();
       socket.emit('gas', value, date);
     });
   }
-}, 2000);
+  }catch(err){
+	console.log("error GAS 2");
+  }
 
+}, 2000);
+  
 });
 
 
@@ -353,4 +468,4 @@ app.use(function(err, req, res, next) {
 
 });
 
-server.listen(3000);
+server.listen(3001);
