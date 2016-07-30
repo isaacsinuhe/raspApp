@@ -174,7 +174,7 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-*/
+
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
 
 var recuperarBD = function(db, callback) {
@@ -195,7 +195,7 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-
+*/
 //Funciòn para remover colecciòn de la Base de Datos
 
 var removerBD = function(db, callback) {
