@@ -204,12 +204,36 @@ var encuentraMAC = function(db, callback) {
    });
 };
 
-MongoClient.connect(url, function(err, db){
-	assert.equal(null, err);
-	encuentraMAC(db, function(){
-		db.close();
-	});
-});
+
+
+//Función para Modificar datos de la colección
+var actualizarBASE = function(db, memTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum, gas, relay1, relay2, relay3, relay4,callback) {
+   db.collection('restaurants').updateOne(
+		 { "mac" : "b8:27:eb:e4:91:38" },
+      {
+        $set: { "statusRaspBerry.memTotal": memTotal },
+				$set: { "statusRaspBerry.memLibre": memLibre },
+        $set: { "statusRaspBerry.memUsada": memUsada },
+				$set: { "statusRaspBerry.memCache": memCache},
+				$set: { "statusRaspBerry.memBuffer": memBuffer },
+				$set: { "statusRaspBerry.cpuUsage": cpuUsage},
+				$set: { "statusRaspBerry.cpuTemp": cpuTemp},
+				$set: { "statusCasa.casaTemp": casaTemp},
+				$set: { "statusCasa.casaHum": casaHum},
+				$set: { "statusCasa.gas": gas},
+				$set: { "statusCasa.relay1": relay1},
+				$set: { "statusCasa.relay2": relay2},
+				$set: { "statusCasa.relay3": relay3},
+				$set: { "statusCasa.relay4": relay4}
+      }, function(err, results) {
+      console.log(results);
+      callback();
+   });
+};
+
+var memTotal = 0, memLibre = 0, memUsada = 0, memCache = 0, memBuffer = 0, cpuUsage = 0, cpuTemp = 0, casaTemp = 0,
+cpuTemp = 0, casaTemp = 0, casaHum = 0, gas = 0, vRelay1 = 0, vRelay2 = 0, vRelay3 =0, vRelay4 = 0;
+
 //Funciòn para remover colecciòn de la Base de Datos
 /*
 var removerBD = function(db, callback) {
@@ -245,10 +269,12 @@ io.sockets.on('connection', function(socket) {
   socket.on('relay1', function (data) {
     console.log("Relay 1: " +data);
     if (data == 'on'){
-          relay1.writeSync(1);
+        relay1.writeSync(1);
+				vRelay1 = 1;
 
     }else{
         relay1.writeSync(0);
+				vRelay1 = 0;
     }
   });
 
@@ -256,9 +282,11 @@ io.sockets.on('connection', function(socket) {
   socket.on('relay2', function (data) {
     console.log("Relay 2: "+data);
     if (data == 'on'){
-          relay2.writeSync(1);
+        relay2.writeSync(1);
+				vRelay2 = 1;
     }else{
         relay2.writeSync(0);
+				vRelay2 = 0;
     }
   });
 
@@ -266,9 +294,11 @@ io.sockets.on('connection', function(socket) {
   socket.on('relay3', function (data) {
     console.log("Relay 3: "+data);
     if (data == 'on'){
-          relay3.writeSync(1);
+        relay3.writeSync(1);
+				vRelay3 = 1;
     }else{
         relay3.writeSync(0);
+				vRelay3 = 0;
     }
   });
 
@@ -277,8 +307,10 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 4: "+data);
     if (data == 'on'){
           relay4.writeSync(1);
+					vRelay4 = 1;
     }else{
-        relay4.writeSync(0);
+         relay4.writeSync(0);
+				 vRelay4 = 0;
     }
   });
 
@@ -335,6 +367,7 @@ io.sockets.on('connection', function(socket) {
       memUsed = parseInt(memTotal)-parseInt(memFree);
       percentUsed = Math.round(parseInt(memUsed)*100/parseInt(memTotal));
       percentFree = 100 - percentUsed;
+			memLibre = percentFree; //para bd
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -347,6 +380,7 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memBuffered = stdout;
       percentBuffered = Math.round(parseInt(memBuffered)*100/parseInt(memTotal));
+			memBuffer = percentBuffered // para bd
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -358,6 +392,7 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memCached = stdout;
       percentCached = Math.round(parseInt(memCached)*100/parseInt(memTotal));
+			memCache = percentCached;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -381,6 +416,7 @@ io.sockets.on('connection', function(socket) {
       var date = new Date().getTime();
       var temp = parseFloat(stdout)/1000;
       socket.emit('temperatureUpdate', date, temp);
+			cpuTemp = temp;
     }
   });
 	//}, 2000);
@@ -393,6 +429,7 @@ io.sockets.on('connection', function(socket) {
       //Es necesario mandar el tiempo (eje X) y un valor de temperatura (eje Y).
       var date = new Date().getTime();
       socket.emit('cpuUsageUpdate', date, parseFloat(stdout));
+			cpuUsage = stdout;
     }
   });
 	//}, 2000);
@@ -437,7 +474,8 @@ var sensor = {
           hum = parseFloat(b.humidity.toFixed(2));
           socket.emit('temperatura', temp, date);
           socket.emit('humedad', hum, date);
-					console.log('temperatura' + this);
+					casaHum = hum;
+					casaTemp = temp;
       }
   }
 };
@@ -456,13 +494,29 @@ sensor.read();
     gpio.read(10, function(err, value){
       var date = new Date().getTime();
       socket.emit('gas', value, date);
-			console.log('gas' + this);
-    });
+			gas = value;
+		});
   }
   }catch(err){
 	console.log("error GAS 2");
   }
 
+//update a base de datos
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+
+  actualizarBASE(db, memTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum, gas, relay1, relay2, relay3, relay4, function() {
+      db.close();
+  });
+});//update bd
+
+//mostrar BD
+MongoClient.connect(url, function(err, db){
+	assert.equal(null, err);
+	encuentraMAC(db, function(){
+		db.close();
+	});
+});
 }, 3000);
 
 });
