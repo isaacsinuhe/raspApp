@@ -27,21 +27,23 @@
     </script>
 
     <script>
-        function relay1On(){
-          socket.emit('relay1', 'on');
+    function relay1On(){
+      socket.emit('relay3', 'on');
+       	document.getElementById("estado1").innerHTML = "Encendida";
+    }
+    function relay1Off(){
+      socket.emit('relay3', 'off');
+	document.getElementById("estado1").innerHTML = "Apagada";
+    }
 
-        }
-        function relay1Off(){
-          socket.emit('relay1', 'off');
-        }
-
-        function relay2On(){
-          socket.emit('relay2', 'on');
-
-        }
-        function relay2Off(){
-          socket.emit('relay2', 'off');
-        }
+    function relay2On(){
+      socket.emit('relay4', 'on');
+	document.getElementById("estado2").innerHTML = "Encendida";
+    }
+    function relay2Off(){
+      socket.emit('relay4', 'off');
+	document.getElementById("estado2").innerHTML = "Apagada";
+    }
     </script>
 
     <style>
@@ -334,28 +336,29 @@
                 <hr>
             </div>
 
+	     <div class="row">
+		<center><h4>Bomba de Agua del Tinaco</h4></center>
+		<center><h4 id="estado1">Estado</h4></center>
+	    </div>
  	    <div class="row">
-		<div class="jumbotron">
-	      	  <center><input class="btn btn-success btn-lg" type="button" name="on" id="onButton" value="Prender" onClick="relay1On();">
-	     	  <input class="btn btn-danger btn-lg" type="button" name="on" id="offButton" value="Apagar" onClick="relay1Off();"></center>
+		<div class="jumbotron" id="jumbo1">
+	      	  <center><input class="btn btn-success btn-lg" type="button" name="on" id="onButton" value="Prender" onClick="relay3On();">
+	     	  <input class="btn btn-danger btn-lg" type="button" name="on" id="offButton" value="Apagar" onClick="relay3Off();"></center>
             	</div>
 	    </div>
 
 	    <hr>
 
+	     <div class="row">
+		<center><h4>Bomba de Agua de la Alberca</h4></center>
+		<center><h4 id="estado2">Estado</h4></center>
+	    </div>
 	    <div class="row">
-	      <div class="jumbotron">
-	        <center><input class="btn btn-success btn-lg" type="button" name="on" id="onButton" value="Prender" onClick="relay2On();">
-	        <input class="btn btn-danger btn-lg" type="button" name="on" id="offButton" value="Apagar" onClick="relay2Off();"></center>
+	      <div class="jumbotron" id="jumbo2">
+	        <center><input class="btn btn-success btn-lg" type="button" name="on" id="onButton" value="Prender" onClick="relay4On();">
+	        <input class="btn btn-danger btn-lg" type="button" name="on" id="offButton" value="Apagar" onClick="relay4Off();"></center>
 	      </div>
             </div>
-
-	    <hr>
-
-
-
-	    <br>
-
 
 	  <footer id="admin-footer" class="clearfix">
 	    <div class="pull-left">
