@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//ººººººººººººººººººººººººººººººººººººººWebService PRUEBA
+//WebService PRUEBA
 var querystring = require('querystring');
 var cerhttp = require('http');
 
@@ -62,8 +62,8 @@ function obtenerDatos(){
 	});
 }//--------funcion obtenerDatos--------
 
-obtenerDatos();
-//ºººººººººººººººººººººººººººººººººººººº
+//obtenerDatos();
+//FIN WS
 
 //Agregadas para pruebas--------------------------------->>
 var http = require('http');
@@ -105,7 +105,7 @@ var relay4 = new GPIOS(20, 'out');
 
 //variables para la conexiòn con la BD
 
-var MongoClient = require ('mongodb').MongoClient, 
+var MongoClient = require ('mongodb').MongoClient,
 assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/raspberry';
@@ -221,7 +221,7 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 1: " +data);
     if (data == 'on'){
           relay1.writeSync(1);
- 
+
     }else{
         relay1.writeSync(0);
     }
@@ -432,7 +432,7 @@ setInterval(function(){
   }
 
 }, 2000);
-  
+
 });
 
 
