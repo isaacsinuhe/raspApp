@@ -212,20 +212,20 @@ var actualizarBASE = function(db, memTotal, memLibre, memUsada, memCache, memBuf
 		 { "mac" : "b8:27:eb:e4:91:38" },
       {
         $set:{
-					{ "statusRaspBerry.memTotal": memTotal },
-					{ "statusRaspBerry.memLibre": memLibre },
-					{ "statusRaspBerry.memUsada": memUsada },
-					{ "statusRaspBerry.memCache": memCache},
-					{ "statusRaspBerry.memBuffer": memBuffer },
-					{ "statusRaspBerry.cpuUsage": cpuUsage},
-					{ "statusRaspBerry.cpuTemp": cpuTemp},
-					{ "statusCasa.casaTemp": casaTemp},
-					{ "statusCasa.casaHum": casaHum},
-					{ "statusCasa.gas": gas},
-					{ "statusCasa.relay1": relay1},
-					{ "statusCasa.relay2": relay2},
-					{ "statusCasa.relay3": relay3},
-					{ "statusCasa.relay4": relay4}
+					 "statusRaspBerry.memTotal": memTotal,
+					 "statusRaspBerry.memLibre": memLibre,
+					 "statusRaspBerry.memUsada": memUsada,
+					 "statusRaspBerry.memCache": memCache,
+					 "statusRaspBerry.memBuffer": memBuffer,
+					 "statusRaspBerry.cpuUsage": cpuUsage,
+					 "statusRaspBerry.cpuTemp": cpuTemp,
+					 "statusCasa.casaTemp": casaTemp,
+					 "statusCasa.casaHum": casaHum,
+					 "statusCasa.gas": gas,
+					 "statusCasa.relay1": relay1,
+					 "statusCasa.relay2": relay2,
+					 "statusCasa.relay3": relay3,
+					 "statusCasa.relay4": relay4
 				}
       }, function(err, results) {
       console.log(results);
