@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//WebService PRUEBA
+//ººººººººººººººººººººººººººººººººººººººWebService PRUEBA
 var querystring = require('querystring');
 var cerhttp = require('http');
 
@@ -58,24 +58,24 @@ function obtenerDatos(){
 	performRequest('/ip/201.141.11.78/json', 'GET', {
 		"countryIso2": "MX"
 	},function(data){
-		console.log('Resultado: ' + data);
+		console.log('Resultado: ' + data.result);
 	});
 }//--------funcion obtenerDatos--------
 
 obtenerDatos();
-//FIN WS
+//ºººººººººººººººººººººººººººººººººººººº
 
 //Agregadas para pruebas--------------------------------->>
 var http = require('http');
 var app = module.exports.app = express();
-var server = http.createServer(app);
-io = require('socket.io').listen(server);
+var server = http.createServer(app),
+io = require('socket.io').listen(server),
 sys = require('util'),
 sensorLib = require('node-dht-sensor'),
 exec = require('child_process').exec,
-gpio = require('rpi-gpio');
-var child;
-var child1;
+gpio = require('rpi-gpio'),
+child,
+child1;
 //------------------------------------------------------->>
 
 
@@ -124,16 +124,16 @@ MongoClient.connect(url, function(err, db){
 /*
 var insertarDocumentos = function(db, callback) {
    db.collection('raspberry').insertOne( {
-		 "ws" : {
-			 "_id" : "",
-			 "username" : "",
-			 "password" : ""
-		 },
+      "ws" : {
+	 "_id" : "",
+	 "username" : "",
+	 "password" : ""
+	},
       "datosRaspBerry" : {
-    "nombre" : "pi",
-    "mac" : "b8:27:eb:e4:91:38",
-    "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
-    "uptime" : ""
+         "nombre" : "pi",
+         "mac" : "b8:27:eb:e4:91:38",
+         "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
+     	 "uptime" : ""
 	 },
       "statusRaspBerry" : {
 	 "memTotal" : "",
@@ -149,10 +149,10 @@ var insertarDocumentos = function(db, callback) {
 	 "casaTemp" : "",
 	 "casaHum" : "",
 	 "gas" : "",
-	 "relay1" : false,
-   "relay2" : false,
- 	 "relay3" : false,
-	 "relay4" : false
+	 "relay1" : "",
+  	 "relay2" : "",
+ 	 "relay3" : "",
+	 "relay4" : ""
 	 },
 	},
     function(err, result) {
@@ -162,23 +162,18 @@ var insertarDocumentos = function(db, callback) {
   });
 };
 
-
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
-	/*if(recuperarBD con mac ){
-	update Documento
-}else{
-	insertarDocumentos
-}
   insertarDocumentos(db, function() {
       db.close();
   });
 });
+*/
 
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
 
 var recuperarBD = function(db, callback) {
-   var cursor = db.collection('raspberry').find();
+   var cursor = db.collection('raspberry').find( );
    cursor.each(function(err, doc) {
       assert.equal(err, null);
       if (doc != null) {
@@ -195,9 +190,14 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
+<<<<<<< HEAD
 
 //Funciòn para remover colecciòn de la Base de Datos
+=======
+>>>>>>> 44bb7e88e3db8480960076fdf973509631613242
 
+//Funciòn para remover colecciòn de la Base de Datos
+/*
 var removerBD = function(db, callback) {
    db.collection('raspberry').deleteMany( {}, function(err, results) {
       console.log(results);
@@ -215,7 +215,6 @@ MongoClient.connect(url, function(err, db) {
 */
 
 //Fin MONGO DB
-
 
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
 //Cada X segundos mandaremos a la gráfica un nuevo valor.
