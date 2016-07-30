@@ -193,7 +193,7 @@ MongoClient.connect(url, function(err, db) {
 */
 //Funciòn para obtener un documento de la colección
 var encuentraMAC = function(db, callback) {
-   var cursor =db.collection('raspberry').find( { "mac" : "b8:27:eb:e4:91:38" } );
+   var cursor =db.collection('raspberry').find( { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" } );
    cursor.each(function(err, doc) {
       assert.equal(err, null);
       if (doc != null) {
