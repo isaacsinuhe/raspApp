@@ -190,11 +190,8 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-<<<<<<< HEAD
 
 //Funciòn para remover colecciòn de la Base de Datos
-=======
->>>>>>> 44bb7e88e3db8480960076fdf973509631613242
 
 //Funciòn para remover colecciòn de la Base de Datos
 /*
