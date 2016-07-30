@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//WebService PRUEBA
+//ººººººººººººººººººººººººººººººººººººººWebService PRUEBA
 var querystring = require('querystring');
 var cerhttp = require('http');
 
@@ -58,12 +58,12 @@ function obtenerDatos(){
 	performRequest('/ip/201.141.11.78/json', 'GET', {
 		"countryIso2": "MX"
 	},function(data){
-		console.log('Resultado: ' + data);
+		console.log('Resultado: ' + data.result);
 	});
 }//--------funcion obtenerDatos--------
 
 obtenerDatos();
-//FIN WS
+//ºººººººººººººººººººººººººººººººººººººº
 
 //Agregadas para pruebas--------------------------------->>
 var http = require('http');
@@ -105,7 +105,7 @@ var relay4 = new GPIOS(20, 'out');
 
 //variables para la conexiòn con la BD
 
-var MongoClient = require ('mongodb').MongoClient,
+var MongoClient = require ('mongodb').MongoClient, 
 assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/raspberry';
@@ -121,19 +121,14 @@ MongoClient.connect(url, function(err, db){
 });
 
 //Funciòn para insertar la collection a la Base de Datos -- YA INSERTADOS
-/*
+
 var insertarDocumentos = function(db, callback) {
    db.collection('raspberry').insertOne( {
-		 "ws" : {
-			 "_id" : "",
-			 "username" : "",
-			 "password" : ""
-		 },
       "datosRaspBerry" : {
-    "nombre" : "pi",
-    "mac" : "b8:27:eb:e4:91:38",
-    "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
-    "uptime" : ""
+         "nombre" : "pi",
+         "mac" : "b8:27:eb:e4:91:38",
+         "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
+     	 "uptime" : ""
 	 },
       "statusRaspBerry" : {
 	 "memTotal" : "",
@@ -149,10 +144,10 @@ var insertarDocumentos = function(db, callback) {
 	 "casaTemp" : "",
 	 "casaHum" : "",
 	 "gas" : "",
-	 "relay1" : false,
-   "relay2" : false,
- 	 "relay3" : false,
-	 "relay4" : false
+	 "relay1" : "",
+  	 "relay2" : "",
+ 	 "relay3" : "",
+	 "relay4" : ""
 	 },
 	},
     function(err, result) {
@@ -162,23 +157,17 @@ var insertarDocumentos = function(db, callback) {
   });
 };
 
-
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
-	/*if(recuperarBD con mac ){
-	update Documento
-}else{
-	insertarDocumentos
-}
   insertarDocumentos(db, function() {
       db.close();
   });
 });
-*/
+
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
 
 var recuperarBD = function(db, callback) {
-   var cursor = db.collection('raspberry').find();
+   var cursor = db.collection('raspberry').find( );
    cursor.each(function(err, doc) {
       assert.equal(err, null);
       if (doc != null) {
@@ -197,7 +186,7 @@ MongoClient.connect(url, function(err, db) {
 });
 
 //Funciòn para remover colecciòn de la Base de Datos
-
+/*
 var removerBD = function(db, callback) {
    db.collection('raspberry').deleteMany( {}, function(err, results) {
       console.log(results);
@@ -212,10 +201,9 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-
+*/
 
 //Fin MONGO DB
-
 
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
 //Cada X segundos mandaremos a la gráfica un nuevo valor.
@@ -233,7 +221,7 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 1: " +data);
     if (data == 'on'){
           relay1.writeSync(1);
-
+ 
     }else{
         relay1.writeSync(0);
     }
@@ -444,7 +432,7 @@ setInterval(function(){
   }
 
 }, 2000);
-
+  
 });
 
 
