@@ -124,11 +124,16 @@ MongoClient.connect(url, function(err, db){
 /*
 var insertarDocumentos = function(db, callback) {
    db.collection('raspberry').insertOne( {
+		 "ws" : {
+			 "_id" : "",
+			 "username" : "",
+			 "password" : ""
+		 },
       "datosRaspBerry" : {
-         "nombre" : "pi",
-         "mac" : "b8:27:eb:e4:91:38",
-         "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
-     	 "uptime" : ""
+    "nombre" : "pi",
+    "mac" : "b8:27:eb:e4:91:38",
+    "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
+    "uptime" : ""
 	 },
       "statusRaspBerry" : {
 	 "memTotal" : "",
@@ -144,10 +149,10 @@ var insertarDocumentos = function(db, callback) {
 	 "casaTemp" : "",
 	 "casaHum" : "",
 	 "gas" : "",
-	 "relay1" : "",
-  	 "relay2" : "",
- 	 "relay3" : "",
-	 "relay4" : ""
+	 "relay1" : false,
+   "relay2" : false,
+ 	 "relay3" : false,
+	 "relay4" : false
 	 },
 	},
     function(err, result) {
@@ -157,8 +162,14 @@ var insertarDocumentos = function(db, callback) {
   });
 };
 
+
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
+	/*if(recuperarBD con mac ){
+	update Documento
+}else{
+	insertarDocumentos
+}
   insertarDocumentos(db, function() {
       db.close();
   });
@@ -167,7 +178,7 @@ MongoClient.connect(url, function(err, db) {
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
 
 var recuperarBD = function(db, callback) {
-   var cursor = db.collection('raspberry').find( );
+   var cursor = db.collection('raspberry').find();
    cursor.each(function(err, doc) {
       assert.equal(err, null);
       if (doc != null) {
@@ -186,7 +197,7 @@ MongoClient.connect(url, function(err, db) {
 });
 
 //Funciòn para remover colecciòn de la Base de Datos
-/*
+
 var removerBD = function(db, callback) {
    db.collection('raspberry').deleteMany( {}, function(err, results) {
       console.log(results);
@@ -201,9 +212,10 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-*/
+
 
 //Fin MONGO DB
+
 
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
 //Cada X segundos mandaremos a la gráfica un nuevo valor.
