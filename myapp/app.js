@@ -241,9 +241,9 @@ io.sockets.on('connection', function(socket) {
   socket.on('relay3', function (data) {
     console.log("Relay 3: "+data);
     if (data == 'on'){
-          relay2.writeSync(1);
+          relay3.writeSync(1);
     }else{
-        relay2.writeSync(0);
+        relay3.writeSync(0);
     }
   });
 
@@ -251,9 +251,9 @@ io.sockets.on('connection', function(socket) {
   socket.on('relay4', function (data) {
     console.log("Relay 4: "+data);
     if (data == 'on'){
-          relay2.writeSync(1);
+          relay4.writeSync(1);
     }else{
-        relay2.writeSync(0);
+        relay4.writeSync(0);
     }
   });
 

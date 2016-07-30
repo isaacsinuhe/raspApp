@@ -27,20 +27,20 @@
     </script>
 
     <script>
-    function relay1On(){
+    function relay3On(){
       socket.emit('relay3', 'on');
        	document.getElementById("estado1").innerHTML = "Encendida";
     }
-    function relay1Off(){
+    function relay3Off(){
       socket.emit('relay3', 'off');
 	document.getElementById("estado1").innerHTML = "Apagada";
     }
 
-    function relay2On(){
+    function relay4On(){
       socket.emit('relay4', 'on');
 	document.getElementById("estado2").innerHTML = "Encendida";
     }
-    function relay2Off(){
+    function relay4Off(){
       socket.emit('relay4', 'off');
 	document.getElementById("estado2").innerHTML = "Apagada";
     }
