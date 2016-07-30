@@ -131,6 +131,26 @@ io.sockets.on('connection', function(socket) {
     }
   });
 
+	//usa GPIO 19 para encender/apagar relay 3
+  socket.on('relay3', function (data) {
+    console.log("Relay 3: "+data);
+    if (data == 'on'){
+          relay2.writeSync(1);
+    }else{
+        relay2.writeSync(0);
+    }
+  });
+
+	//usa GPIO 20 para encender/apagar relay 4
+  socket.on('relay4', function (data) {
+    console.log("Relay 4: "+data);
+    if (data == 'on'){
+          relay2.writeSync(1);
+    }else{
+        relay2.writeSync(0);
+    }
+  });
+
 
   // Funcion para revisar el estado de la memoria
     child = exec("egrep --color 'MemTotal' /proc/meminfo | egrep '[0-9.]{4,}' -o", function (error, stdout, stderr) {
