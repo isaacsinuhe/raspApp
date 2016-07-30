@@ -150,7 +150,7 @@ var insertarDocumentos = function(db, callback) {
 	 "casaHum" : "",
 	 "gas" : "",
 	 "relay1" : "",
-  	 "relay2" : "",
+   "relay2" : "",
  	 "relay3" : "",
 	 "relay4" : ""
 	 },
@@ -168,7 +168,7 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-*/
+
 
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
 
@@ -190,9 +190,26 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
+*/
+//Funciòn para obtener un documento de la colección
+var encuentraMAC = function(db, callback) {
+   var cursor =db.collection('raspberry').find( { "mac" : "b8:27:eb:e4:91:38" } );
+   cursor.each(function(err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+         console.dir(doc);
+      } else {
+         callback();
+      }
+   });
+};
 
-//Funciòn para remover colecciòn de la Base de Datos
-
+MongoClient.connect(url, function(err, db){
+	assert.equal(null, err);
+	encuentraMAC(db, function(){
+		db.close();
+	});
+});
 //Funciòn para remover colecciòn de la Base de Datos
 /*
 var removerBD = function(db, callback) {
