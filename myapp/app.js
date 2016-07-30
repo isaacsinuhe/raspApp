@@ -58,7 +58,7 @@ function obtenerDatos(){
 	performRequest('/ip/201.141.11.78/json', 'GET', {
 		"countryIso2": "MX"
 	},function(data){
-		console.log('Resultado: ' + data.result);
+		console.log('Resultado: ' + data);
 	});
 }//--------funcion obtenerDatos--------
 
