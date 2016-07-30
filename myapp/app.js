@@ -34,13 +34,13 @@ var options = {
 
 var req = cerhttp.request(options, function(res){
 	res.setEncoding('utf-8');
-	
+
 	var responseString = '';
 
 	res.on('data', function(data){
 	  responseString += data;
          });
-	
+
 	res.on('end', function(){
 	  console.log(responseString);
 	  var responseObject = JSON.parse(responseString);
@@ -90,27 +90,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //CONTROL relays
-
+//Declaración de variables y librerias necesarias
 var fs = require('fs');
 var sock;
 
 var GPIOS = require('onoff').Gpio;
 var relay1 = new GPIOS(17, 'out');
 var relay2 = new GPIOS(18, 'out');
-
-
-/*function handler (req, res) {
-  fs.readFile('index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading iluminacion.html');
-    }
-    res.writeHead(200);
-    res.end(data);
-  });
-}*/
-
+var relay3 = new GPIOS(19, 'out');
+var relay4 = new GPIOS(20, 'out');
 //Fin CONTROL relays
 
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
@@ -123,18 +111,14 @@ io.sockets.on('connection', function(socket) {
 
 
   sock = socket;
-  
+
   //usa GPIO 17 para encender/apagar relay 1
   socket.on('relay1', function (data) {
     console.log(data);
     if (data == 'on'){
-          relay1.writeSync(1);
-          socket.emit('ledstatus', 'green');
- 
+        relay1.writeSync(1);
     }else{
-        relay1.writeSync(0);
-        socket.emit('ledstatus', 'red');
-    }
+        relay1.writeSync(0);    }
   });
 
   //usa GPIO 18 para encender/apagar relay 2
@@ -143,14 +127,14 @@ io.sockets.on('connection', function(socket) {
     if (data == 'on'){
           relay2.writeSync(1);
           socket.emit('ledstatus', 'green');
- 
+
     }else{
         relay2.writeSync(0);
         socket.emit('ledstatus', 'red');
     }
   });
 
-	
+
   // Funcion para revisar el estado de la memoria
     child = exec("egrep --color 'MemTotal' /proc/meminfo | egrep '[0-9.]{4,}' -o", function (error, stdout, stderr) {
     if (error !== null) {
@@ -160,7 +144,7 @@ io.sockets.on('connection', function(socket) {
       socket.emit('memoryTotal', stdout);
     }
   });
-  
+
   // Funcion para obtener el nombre del host
     child = exec("hostname", function (error, stdout, stderr) {
     if (error !== null) {
