@@ -376,6 +376,7 @@ io.sockets.on('connection', function(socket) {
       memUsed = parseInt(memTotal)-parseInt(memFree);
       percentUsed = Math.round(parseInt(memUsed)*100/parseInt(memTotal));
       percentFree = 100 - percentUsed;
+			memLibre = stdout;
 			memUsada = memoriaTotal - memLibre;
 			memUsada = (memUsada*100)/memoriaTotal;
 			memLibre = 100 - memUsada;
