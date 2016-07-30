@@ -420,7 +420,7 @@ var sensor = {
           hum = parseFloat(b.humidity.toFixed(2));
           socket.emit('temperatura', temp, date);
           socket.emit('humedad', hum, date);
-					console.log('temperatura');
+					console.log('temperatura' + this);
       }
   }
 };
@@ -439,7 +439,7 @@ sensor.read();
     gpio.read(10, function(err, value){
       var date = new Date().getTime();
       socket.emit('gas', value, date);
-			console.log('gas');
+			console.log('gas' + this);
     });
   }
   }catch(err){
