@@ -211,28 +211,29 @@ var actualizarBASE = function(db, memTotal, memLibre, memUsada, memCache, memBuf
    db.collection('raspberry').updateOne(
 		 { "mac" : "b8:27:eb:e4:91:38" },
       {
-        $set: { "statusRaspBerry.memTotal": memTotal },
-				$set: { "statusRaspBerry.memLibre": memLibre },
-        $set: { "statusRaspBerry.memUsada": memUsada },
-				$set: { "statusRaspBerry.memCache": memCache},
-				$set: { "statusRaspBerry.memBuffer": memBuffer },
-				$set: { "statusRaspBerry.cpuUsage": cpuUsage},
-				$set: { "statusRaspBerry.cpuTemp": cpuTemp},
-				$set: { "statusCasa.casaTemp": casaTemp},
-				$set: { "statusCasa.casaHum": casaHum},
-				$set: { "statusCasa.gas": gas},
-				$set: { "statusCasa.relay1": relay1},
-				$set: { "statusCasa.relay2": relay2},
-				$set: { "statusCasa.relay3": relay3},
-				$set: { "statusCasa.relay4": relay4}
+        $set:{
+					{ "statusRaspBerry.memTotal": memTotal },
+					{ "statusRaspBerry.memLibre": memLibre },
+					{ "statusRaspBerry.memUsada": memUsada },
+					{ "statusRaspBerry.memCache": memCache},
+					{ "statusRaspBerry.memBuffer": memBuffer },
+					{ "statusRaspBerry.cpuUsage": cpuUsage},
+					{ "statusRaspBerry.cpuTemp": cpuTemp},
+					{ "statusCasa.casaTemp": casaTemp},
+					{ "statusCasa.casaHum": casaHum},
+					{ "statusCasa.gas": gas},
+					{ "statusCasa.relay1": relay1},
+					{ "statusCasa.relay2": relay2},
+					{ "statusCasa.relay3": relay3},
+					{ "statusCasa.relay4": relay4}
+				}
       }, function(err, results) {
       console.log(results);
       callback();
    });
 };
 
-var memTotal = 0, memLibre = 0, memUsada = 0, memCache = 0, memBuffer = 0, cpuUsage = 0, cpuTemp = 0, casaTemp = 0,
-cpuTemp = 0, casaTemp = 0, casaHum = 0, gas = 0, vRelay1 = 0, vRelay2 = 0, vRelay3 =0, vRelay4 = 0;
+
 
 //Funciòn para remover colecciòn de la Base de Datos
 /*
@@ -259,6 +260,7 @@ MongoClient.connect(url, function(err, db) {
 io.sockets.on('connection', function(socket) {
   var memTotal, memUsed = 0, memFree = 0, memBuffered = 0, memCached = 0, sendData = 1, percentBuffered, percentCached, percentUsed, percentFree;
   var address = socket.handshake.address;
+
 
   console.log("Nueva conexion desde:" + address);
 
