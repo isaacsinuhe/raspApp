@@ -62,7 +62,7 @@ function obtenerDatos(){
 	});
 }//--------funcion obtenerDatos--------
 
-//obtenerDatos();
+obtenerDatos();
 //FIN WS
 
 //Agregadas para pruebas--------------------------------->>
