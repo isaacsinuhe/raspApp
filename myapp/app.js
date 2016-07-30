@@ -184,7 +184,7 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-
+*/
 //Funciòn para remover colecciòn de la Base de Datos
 /*
 var removerBD = function(db, callback) {
