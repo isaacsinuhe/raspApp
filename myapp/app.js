@@ -272,11 +272,11 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 1: " +data);
     if (data == 'on'){
         relay1.writeSync(1);
-				vRelay1 = 1;
+
 
     }else{
         relay1.writeSync(0);
-				vRelay1 = 0;
+
     }
   });
 
@@ -285,10 +285,10 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 2: "+data);
     if (data == 'on'){
         relay2.writeSync(1);
-				vRelay2 = 1;
+
     }else{
         relay2.writeSync(0);
-				vRelay2 = 0;
+
     }
   });
 
@@ -297,10 +297,8 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 3: "+data);
     if (data == 'on'){
         relay3.writeSync(1);
-				vRelay3 = 1;
     }else{
         relay3.writeSync(0);
-				vRelay3 = 0;
     }
   });
 
@@ -309,10 +307,8 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 4: "+data);
     if (data == 'on'){
           relay4.writeSync(1);
-					vRelay4 = 1;
     }else{
          relay4.writeSync(0);
-				 vRelay4 = 0;
     }
   });
 
@@ -322,7 +318,6 @@ io.sockets.on('connection', function(socket) {
     if (error !== null) {
       console.log('exec error: ' + error);
     } else {
-      memTotal = stdout;
       socket.emit('memoryTotal', stdout);
     }
   });
@@ -369,7 +364,6 @@ io.sockets.on('connection', function(socket) {
       memUsed = parseInt(memTotal)-parseInt(memFree);
       percentUsed = Math.round(parseInt(memUsed)*100/parseInt(memTotal));
       percentFree = 100 - percentUsed;
-			memLibre = percentFree; //para bd
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -382,7 +376,6 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memBuffered = stdout;
       percentBuffered = Math.round(parseInt(memBuffered)*100/parseInt(memTotal));
-			memBuffer = percentBuffered // para bd
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -394,7 +387,6 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memCached = stdout;
       percentCached = Math.round(parseInt(memCached)*100/parseInt(memTotal));
-			memCache = percentCached;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -418,7 +410,6 @@ io.sockets.on('connection', function(socket) {
       var date = new Date().getTime();
       var temp = parseFloat(stdout)/1000;
       socket.emit('temperatureUpdate', date, temp);
-			cpuTemp = temp;
     }
   });
 	//}, 2000);
@@ -431,7 +422,6 @@ io.sockets.on('connection', function(socket) {
       //Es necesario mandar el tiempo (eje X) y un valor de temperatura (eje Y).
       var date = new Date().getTime();
       socket.emit('cpuUsageUpdate', date, parseFloat(stdout));
-			cpuUsage = stdout;
     }
   });
 	//}, 2000);
@@ -476,8 +466,6 @@ var sensor = {
           hum = parseFloat(b.humidity.toFixed(2));
           socket.emit('temperatura', temp, date);
           socket.emit('humedad', hum, date);
-					casaHum = hum;
-					casaTemp = temp;
       }
   }
 };
@@ -496,7 +484,6 @@ sensor.read();
     gpio.read(10, function(err, value){
       var date = new Date().getTime();
       socket.emit('gas', value, date);
-			gas = value;
 		});
   }
   }catch(err){
