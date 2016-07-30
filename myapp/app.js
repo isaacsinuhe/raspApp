@@ -330,7 +330,7 @@ io.sockets.on('connection', function(socket) {
       console.log('exec error: ' + error);
     } else {
       socket.emit('memoryTotal', stdout);
-			memoriaTotal = stdout/100;
+			memoriaTotal = stdout;
     }
   });
 
