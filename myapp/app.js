@@ -114,7 +114,7 @@ io.sockets.on('connection', function(socket) {
 
   //usa GPIO 17 para encender/apagar relay 1
   socket.on('relay1', function (data) {
-    console.log(data);
+    console.log("Relay 1: " +data);
     if (data == 'on'){
         relay1.writeSync(1);
     }else{
@@ -123,14 +123,11 @@ io.sockets.on('connection', function(socket) {
 
   //usa GPIO 18 para encender/apagar relay 2
   socket.on('relay2', function (data) {
-    console.log(data);
+    console.log("Relay 2: "+data);
     if (data == 'on'){
           relay2.writeSync(1);
-          socket.emit('ledstatus', 'green');
-
     }else{
         relay2.writeSync(0);
-        socket.emit('ledstatus', 'red');
     }
   });
 
