@@ -207,15 +207,30 @@ var encuentraMAC = function(db, callback) {
 
 
 //Función para Modificar datos de la colección
-var actualizarBASE = function(db, memTotal,hum, callback) {
+var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum,
+														 casaGas, valRelay1, valRelay2, valRelay3, valRelay4, callback) {
    db.collection('raspberry').updateOne(
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
         $set:{
 					"statusRaspBerry" :{
-					 "memTotal": memTotal,
- 					 "memLibre": hum
-					}
+					 "memTotal": memoriaTotal,
+ 					 "memLibre": memLibre,
+					 "memUsada": memUsada,
+					 "memCache": memCache,
+					 "memBuffer": memBuffer,
+					 "cpuUsage": cpuUsage,
+					 "cpuTemp": cpuTemp
+				 },
+				 "statusCasa":{
+					 "casaTemp": casaTemp,
+					 "casaHum": casaHum,
+					 "gas": casaGas,
+					 "relay1": valRelay1,
+					 "relay2": valRelay2,
+					 "relay3": valRelay3,
+					 "relay4": valRelay4
+				 }
 				}
       }, function(err, results) {
       console.log(results);
@@ -251,6 +266,9 @@ io.sockets.on('connection', function(socket) {
   var memTotal, memUsed = 0, memFree = 0, memBuffered = 0, memCached = 0, sendData = 1, percentBuffered, percentCached, percentUsed, percentFree;
   var address = socket.handshake.address;
 
+	var memoriaTotal = 0, memLibre = 0, memUsada = 0, memCache = 0, memBuffer = 0, cpuUsage = 0, cpuTemp = 0, casaTemp = 0, casaHum = 0,
+	casaGas = 0, valRelay1 = 0, valRelay2 = 0, valRelay3 = 0, valRelay4 = 0;
+
 
   console.log("Nueva conexion desde:" + address);
 
@@ -262,11 +280,10 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 1: " +data);
     if (data == 'on'){
         relay1.writeSync(1);
-
-
+				valRelay1 = 1;
     }else{
         relay1.writeSync(0);
-
+				valRelay1 = 0;
     }
   });
 
@@ -275,10 +292,10 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 2: "+data);
     if (data == 'on'){
         relay2.writeSync(1);
-
+				valRelay2 = 1;
     }else{
         relay2.writeSync(0);
-
+				valRelay2 = 0;
     }
   });
 
@@ -287,8 +304,10 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 3: "+data);
     if (data == 'on'){
         relay3.writeSync(1);
+				valRelay3 = 1;
     }else{
         relay3.writeSync(0);
+				valRelay3 = 0;
     }
   });
 
@@ -297,8 +316,10 @@ io.sockets.on('connection', function(socket) {
     console.log("Relay 4: "+data);
     if (data == 'on'){
           relay4.writeSync(1);
+					valRelay4 = 1;
     }else{
          relay4.writeSync(0);
+				 valRelay4 = 0;
     }
   });
 
@@ -309,6 +330,7 @@ io.sockets.on('connection', function(socket) {
       console.log('exec error: ' + error);
     } else {
       socket.emit('memoryTotal', stdout);
+			memoriaTotal = stdout;
     }
   });
 
@@ -385,6 +407,10 @@ io.sockets.on('connection', function(socket) {
 
     if (sendData == 1) {
       socket.emit('memoryUpdate', percentFree, percentUsed, percentBuffered, percentCached);
+			memLibre = percentFree;
+			memUsada = percentUsed;
+			memBuffer = percentBuffered;
+			memCache = percentCached;
     } else {
       sendData = 1;
     }
@@ -400,6 +426,7 @@ io.sockets.on('connection', function(socket) {
       var date = new Date().getTime();
       var temp = parseFloat(stdout)/1000;
       socket.emit('temperatureUpdate', date, temp);
+			cpuTemp = temp;
     }
   });
 	//}, 2000);
@@ -412,6 +439,7 @@ io.sockets.on('connection', function(socket) {
       //Es necesario mandar el tiempo (eje X) y un valor de temperatura (eje Y).
       var date = new Date().getTime();
       socket.emit('cpuUsageUpdate', date, parseFloat(stdout));
+			cpuUsage = parseFloat(stdout);
     }
   });
 	//}, 2000);
@@ -456,6 +484,8 @@ var sensor = {
           hum = parseFloat(b.humidity.toFixed(2));
           socket.emit('temperatura', temp, date);
           socket.emit('humedad', hum, date);
+					casaTemp = temp;
+					casaHum = hum;
       }
   }
 };
@@ -474,6 +504,7 @@ sensor.read();
     gpio.read(10, function(err, value){
       var date = new Date().getTime();
       socket.emit('gas', value, date);
+			casaGas = value;
 		});
   }
   }catch(err){
@@ -484,7 +515,8 @@ sensor.read();
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
-  actualizarBASE(db, temp, hum, function() {
+  actualizarBASE(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum,
+								casaGas, valRelay1, valRelay2, valRelay3, valRelay4, function() {
       db.close();
   });
 });//update bd
