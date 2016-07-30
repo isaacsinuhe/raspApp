@@ -456,6 +456,15 @@ var sensor = {
           hum = parseFloat(b.humidity.toFixed(2));
           socket.emit('temperatura', temp, date);
           socket.emit('humedad', hum, date);
+
+					//update a base de datos
+					MongoClient.connect(url, function(err, db) {
+					  assert.equal(null, err);
+
+					  actualizarBASE(db, temp, hum, function() {
+					      db.close();
+					  });
+					});//update bd
       }
   }
 };
@@ -480,14 +489,6 @@ sensor.read();
 	console.log("error GAS 2");
   }
 
-//update a base de datos
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-
-  actualizarBASE(db, temp, hum, function() {
-      db.close();
-  });
-});//update bd
 
 //mostrar BD
 MongoClient.connect(url, function(err, db){
