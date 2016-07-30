@@ -402,7 +402,7 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memCached = stdout;
       percentCached = Math.round(parseInt(memCached)*100/parseInt(memTotal));
-			memCache = stdout;
+			memCache = (stdout*100)/memoriaTotal;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
