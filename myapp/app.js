@@ -68,14 +68,14 @@ obtenerDatos();
 //Agregadas para pruebas--------------------------------->>
 var http = require('http');
 var app = module.exports.app = express();
-var server = http.createServer(app);
-io = require('socket.io').listen(server);
+var server = http.createServer(app),
+io = require('socket.io').listen(server),
 sys = require('util'),
 sensorLib = require('node-dht-sensor'),
 exec = require('child_process').exec,
-gpio = require('rpi-gpio');
-var child;
-var child1;
+gpio = require('rpi-gpio'),
+child,
+child1;
 //------------------------------------------------------->>
 
 
@@ -121,9 +121,14 @@ MongoClient.connect(url, function(err, db){
 });
 
 //Funciòn para insertar la collection a la Base de Datos -- YA INSERTADOS
-
+/*
 var insertarDocumentos = function(db, callback) {
    db.collection('raspberry').insertOne( {
+      "ws" : {
+	 "_id" : "",
+	 "username" : "",
+	 "password" : ""
+	},
       "datosRaspBerry" : {
          "nombre" : "pi",
          "mac" : "b8:27:eb:e4:91:38",
@@ -163,6 +168,7 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
+*/
 
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
 
@@ -184,7 +190,7 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-*/
+
 //Funciòn para remover colecciòn de la Base de Datos
 /*
 var removerBD = function(db, callback) {
