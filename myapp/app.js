@@ -207,14 +207,15 @@ var encuentraMAC = function(db, callback) {
 
 
 //Función para Modificar datos de la colección
-var actualizarBASE = function(db, memTotal, callback) {
+var actualizarBASE = function(db, memTotal,hum, callback) {
    db.collection('raspberry').updateOne(
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
         $set:{
-					 "statusRaspBerry.memTotal": memTotal,
-					 "statusRaspBerry.memLibre": memTotal
-
+					"statusRaspBerry" :{
+					 "memTotal": memTotal,
+ 					 "memLibre": hum
+					}
 				}
       }, function(err, results) {
       console.log(results);
@@ -483,7 +484,7 @@ sensor.read();
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
-  actualizarBASE(db, memTotal, function() {
+  actualizarBASE(db, temp, hum, function() {
       db.close();
   });
 });//update bd
