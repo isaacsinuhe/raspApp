@@ -376,8 +376,9 @@ io.sockets.on('connection', function(socket) {
       memUsed = parseInt(memTotal)-parseInt(memFree);
       percentUsed = Math.round(parseInt(memUsed)*100/parseInt(memTotal));
       percentFree = 100 - percentUsed;
-			memLibre = stdout;
 			memUsada = memoriaTotal - memLibre;
+			memUsada = (memUsada*100)/memoriaTotal;
+			memLibre = 100 - memUsada;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -390,7 +391,7 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memBuffered = stdout;
       percentBuffered = Math.round(parseInt(memBuffered)*100/parseInt(memTotal));
-			memBuffer = stdout;
+			memBuffer = (stdout*100)/memoriaTotal;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
