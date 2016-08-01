@@ -330,7 +330,7 @@ io.sockets.on('connection', function(socket) {
       console.log('exec error: ' + error);
     } else {
       socket.emit('memoryTotal', stdout);
-			memoriaTotal = stdout;
+			//memoriaTotal = stdout;
     }
   });
 
@@ -412,7 +412,7 @@ io.sockets.on('connection', function(socket) {
     } else {
       sendData = 1;
     }
-  //}, 3000);
+  }, 3000);
 
   // Function for measuring temperature
   //setInterval(function(){
