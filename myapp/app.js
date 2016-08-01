@@ -509,6 +509,7 @@ setInterval(function(){
 	console.log("error GAS 2");
   }
 
+/*
 //update a base de datos
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
@@ -525,7 +526,7 @@ MongoClient.connect(url, function(err, db){
 	encuentraMAC(db, function(){
 		db.close();
 	});
-});
+});*/
 }, 3000);
 
 });
