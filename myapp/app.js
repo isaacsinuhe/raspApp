@@ -266,8 +266,8 @@ io.sockets.on('connection', function(socket) {
   var memTotal, memUsed = 0, memFree = 0, memBuffered = 0, memCached = 0, sendData = 1, percentBuffered, percentCached, percentUsed, percentFree;
   var address = socket.handshake.address;
 
-	var memoriaTotal = 0, memLibre = 0, memUsada = 0, memCache = 0, memBuffer = 0, cpuUsage = 0, cpuTemp = 0, casaTemp = 0, casaHum = 0,
-	casaGas = 0, valRelay1 = 0, valRelay2 = 0, valRelay3 = 0, valRelay4 = 0;
+//	var memoriaTotal = 0, memLibre = 0, memUsada = 0, memCache = 0, memBuffer = 0, cpuUsage = 0, cpuTemp = 0, casaTemp = 0, casaHum = 0,
+	//casaGas = 0, valRelay1 = 0, valRelay2 = 0, valRelay3 = 0, valRelay4 = 0;
 
 
   console.log("Nueva conexion desde:" + address);
