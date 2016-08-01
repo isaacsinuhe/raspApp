@@ -329,8 +329,9 @@ io.sockets.on('connection', function(socket) {
     if (error !== null) {
       console.log('exec error: ' + error);
     } else {
-      socket.emit('memoryTotal', stdout);
-	//		memoriaTotal = stdout;
+			memTotal = stdout;
+			socket.emit('memoryTotal', stdout);
+			//memoriaTotal = stdout;
     }
   });
 
