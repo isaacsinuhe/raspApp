@@ -412,7 +412,7 @@ io.sockets.on('connection', function(socket) {
     } else {
       sendData = 1;
     }
-  }, 3000);
+  //}, 3000);
 
   // Function for measuring temperature
   //setInterval(function(){
@@ -491,13 +491,9 @@ sensor.read();
 //}, 2000);
 
 //setInterval(function(){
-  try{
-  gpio.setup(10, gpio.DIR_IN, readInput);
-     }catch(err){
-   	console.log("error en el detector de gas");
-    }
 
-  try{
+  gpio.setup(10, gpio.DIR_IN, readInput);
+
   function readInput(){
     gpio.read(10, function(err, value){
       var date = new Date().getTime();
@@ -505,11 +501,9 @@ sensor.read();
 			casaGas = value;
 		});
   }
-  }catch(err){
-	console.log("error GAS 2");
-  }
 
-//update a base de datos
+
+/*update a base de datos
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
@@ -525,7 +519,7 @@ MongoClient.connect(url, function(err, db){
 	encuentraMAC(db, function(){
 		db.close();
 	});
-});
+});*/
 }, 3000);
 
 });
