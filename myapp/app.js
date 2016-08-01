@@ -454,7 +454,7 @@ io.sockets.on('connection', function(socket) {
 	}, 5000);
 
 // TOP list
-  //setInterval(function(){
+  setInterval(function(){
     child = exec("ps aux --width 30 --sort -rss --no-headers | head  | awk '{print $11}'", function (error, stdout, stderr) {
 	    if (error !== null) {
 	      console.log('exec error: ' + error);
