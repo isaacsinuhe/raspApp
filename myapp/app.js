@@ -330,7 +330,7 @@ io.sockets.on('connection', function(socket) {
       console.log('exec error: ' + error);
     } else {
       socket.emit('memoryTotal', stdout);
-			//memoriaTotal = stdout;
+			memoriaTotal = stdout;
     }
   });
 
@@ -412,10 +412,10 @@ io.sockets.on('connection', function(socket) {
     } else {
       sendData = 1;
     }
-  //}, 3000);
+  }, 3000);
 
   // Function for measuring temperature
-  //setInterval(function(){
+  setInterval(function(){
     child = exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
     if (error !== null) {
       console.log('exec error: ' + error);
@@ -427,9 +427,9 @@ io.sockets.on('connection', function(socket) {
 			cpuTemp = temp;
     }
   });
-	//}, 2000);
+	}, 2000);
 
-  //setInterval(function(){
+  setInterval(function(){
     child = exec("top -d 0.5 -b -n2 | grep 'Cpu(s)'|tail -n 1 | awk '{print $2 + $4}'", function (error, stdout, stderr) {
     if (error !== null) {
       console.log('exec error: ' + error);
@@ -440,10 +440,10 @@ io.sockets.on('connection', function(socket) {
 			cpuUsage = parseFloat(stdout);
     }
   });
-	//}, 2000);
+	}, 2000);
 
 	// Uptime
-  //setInterval(function(){
+  setInterval(function(){
     child = exec("uptime | tail -n 1 | awk '{print $3 $4 $5}'", function (error, stdout, stderr) {
 	    if (error !== null) {
 	      console.log('exec error: ' + error);
@@ -451,7 +451,7 @@ io.sockets.on('connection', function(socket) {
 	      socket.emit('uptime', stdout);
 	    }
 	  });
-	//}, 5000);
+	}, 5000);
 
 // TOP list
   //setInterval(function(){
@@ -462,11 +462,11 @@ io.sockets.on('connection', function(socket) {
 	      socket.emit('toplist', stdout);
 	    }
 	  });
-	//}, 5000);
+	}, 5000);
 
 
 // Humidity
-//setInterval(function(){
+setInterval(function(){
 var sensor = {
   sensors: [ {
       name: "Indoor",
@@ -488,12 +488,16 @@ var sensor = {
   }
 };
 sensor.read();
-//}, 2000);
+}, 2000);
 
-//setInterval(function(){
-
+setInterval(function(){
+  try{
   gpio.setup(10, gpio.DIR_IN, readInput);
+     }catch(err){
+   	console.log("error en el detector de gas");
+    }
 
+  try{
   function readInput(){
     gpio.read(10, function(err, value){
       var date = new Date().getTime();
@@ -501,9 +505,11 @@ sensor.read();
 			casaGas = value;
 		});
   }
+  }catch(err){
+	console.log("error GAS 2");
+  }
 
-
-/*update a base de datos
+//update a base de datos
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
@@ -519,7 +525,7 @@ MongoClient.connect(url, function(err, db){
 	encuentraMAC(db, function(){
 		db.close();
 	});
-});*/
+});
 }, 3000);
 
 });
