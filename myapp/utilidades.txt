@@ -141,3 +141,23 @@ var encuentraMAC = function(db, callback) {
       }
    });
 };
+
+//Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
+var recuperarBD = function(db, callback) {
+   var cursor = db.collection('raspberry').find( );
+   cursor.each(function(err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+         console.dir(doc);
+      } else {
+         callback();
+      }
+   });
+};
+
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  recuperarBD(db, function() {
+      db.close();
+  });
+});
