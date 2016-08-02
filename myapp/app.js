@@ -87,6 +87,30 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
    });
 };
 
+//Puebas REST
+var Client = require('node-rest-client').Client;
+
+var client = new Client();
+
+// direct way
+client.get("https://jsonplaceholder.typicode.com/posts/1", function (data, response) {
+    // parsed response body as js object
+    console.log(data);
+    // raw response
+    console.log(response);
+});
+
+// registering remote methods
+client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/1", "GET");
+
+client.methods.jsonMethod(function (data, response) {
+    // parsed response body as js object
+    console.log(data);
+    // raw response
+    console.log(response);
+});
+
+
 //Socket.io
 io.sockets.on('connection', function(socket) {
 	var memTotal, memUsed = 0, memFree = 0,
@@ -364,15 +388,15 @@ MongoClient.connect(url, function(err, db) {
 								casaGas, function() {
       db.close();
   });
-});//update bd
-
+});
+/*
 //mostrar BD
 MongoClient.connect(url, function(err, db){
 	assert.equal(null, err);
 	encuentraMAC(db, function(){
 		db.close();
 	});
-});
+});*/
 }, 3000);
 
 });
