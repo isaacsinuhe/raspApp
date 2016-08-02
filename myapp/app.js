@@ -403,3 +403,4 @@ app.use(function(err, req, res, next) {
 });
 
 server.listen(3001);
+console.log("Servidor ASISA corriendo en http://localhost:3001");
