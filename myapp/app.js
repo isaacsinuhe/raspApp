@@ -41,7 +41,7 @@ var url = 'mongodb://localhost:27017/raspberry';
 //Conectar MongoDB
 MongoClient.connect(url, function(err, db){
 	assert.equal(null,err);
-	console.log("Conectado correctamente al servidor de Base de Datos raspberry");
+	console.log("Conectado correctamente a: "+url);
 	db.close();
 });
 
@@ -65,9 +65,29 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 
+var removerBD = function(db, callback) {
+   db.collection('raspberry').deleteMany( {}, function(err, results) {
+      console.log(results);
+      callback();
+   });
+};
+
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+
+  removerBD(db, function() {
+      db.close();
+  });
+});
+
 //Función para Modificar datos de la colección
-var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage,daemons, cpuTemp, casaTemp, casaHum,
-														 casaGas, valRelay1, valRelay2, valRelay3, valRelay4, callback) {
+/*
+var actualizarBASE = function(db, memoriaTotal, memLibre,
+	 														memUsada, memCache, memBuffer,
+															cpuUsage,	cpuTemp, daemons,
+															casaTemp, casaHum, casaGas,
+															valRelay1, valRelay2, valRelay3,
+															valRelay4, callback) {
    db.collection('raspberry').updateOne(
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
@@ -80,7 +100,7 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
 					 "memBuffer": memBuffer,
 					 "cpuUsage": cpuUsage,
 					 "cpuTemp": cpuTemp,
-					 "daemons" : ""
+					 "daemons" : daemons,
 				 },
 				 "statusCasa":{
 					 "casaTemp": casaTemp,
@@ -97,7 +117,7 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
       callback();
    });
 };
-
+*/
 //Fin MONGO DB
 
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
