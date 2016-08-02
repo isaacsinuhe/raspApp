@@ -98,7 +98,7 @@ var client = new Client();
   //  console.log(data);
     // raw response
   //  console.log(response);
-});
+//});
 
 // registering remote methods
 client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/1", "GET");
