@@ -65,17 +65,49 @@ MongoClient.connect(url, function(err, db) {
   });
 });
 
-var removerBD = function(db, callback) {
-   db.collection('raspberry').deleteMany( {}, function(err, results) {
-      console.log(results);
-      callback();
-   });
+var insertarDocumentos = function(db, callback) {
+   db.collection('raspberry').insertOne( {
+      "ws" : {
+	 "_id" : "",
+	 "username" : "",
+	 "password" : ""
+	},
+      "datosRaspBerry" : {
+         "nombre" : "pi",
+         "mac" : "b8:27:eb:e4:91:38",
+         "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
+     	 "uptime" : ""
+	 },
+      "statusRaspBerry" : {
+	 "memTotal" : "",
+	 "memLibre" : "",
+	 "memUsada" : "",
+	 "memCache" : "",
+	 "memBuffer" : "",
+	 "cpuUsage" : "",
+	 "cpuTemp" : "",
+	 "daemons" : ""
+         },
+      "statusCasa" : {
+	 "casaTemp" : "",
+	 "casaHum" : "",
+	 "gas" : "",
+	 "relay1" : "",
+   "relay2" : "",
+ 	 "relay3" : "",
+	 "relay4" : ""
+	 },
+	},
+    function(err, result) {
+    assert.equal(err, null);
+    console.log("Se insertaron los documentos dentro de la coleciòn raspberry!!");
+    callback();
+  });
 };
 
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
-
-  removerBD(db, function() {
+  insertarDocumentos(db, function() {
       db.close();
   });
 });
