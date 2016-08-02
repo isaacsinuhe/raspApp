@@ -45,36 +45,10 @@ MongoClient.connect(url, function(err, db){
 	db.close();
 });
 
-//Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
-var recuperarBD = function(db, callback) {
-   var cursor = db.collection('raspberry').find( );
-   cursor.each(function(err, doc) {
-      assert.equal(err, null);
-      if (doc != null) {
-         console.dir(doc);
-      } else {
-         callback();
-      }
-   });
-};
-
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  recuperarBD(db, function() {
-      db.close();
-  });
-});
-
-
-
 //Función para Modificar datos de la colección
-/*
-var actualizarBASE = function(db, memoriaTotal, memLibre,
-	 														memUsada, memCache, memBuffer,
-															cpuUsage,	cpuTemp, daemons,
-															casaTemp, casaHum, casaGas,
-															valRelay1, valRelay2, valRelay3,
-															valRelay4, callback) {
+var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer,
+															cpuUsage,	cpuTemp, daemons, casaTemp, casaHum, casaGas,
+															valRelay1, valRelay2, valRelay3, valRelay4, callback) {
    db.collection('raspberry').updateOne(
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
@@ -104,19 +78,24 @@ var actualizarBASE = function(db, memoriaTotal, memLibre,
       callback();
    });
 };
-*/
-//Fin MONGO DB
 
-//Cuando abramos el navegador estableceremos una conexión con socket.io.
-//Cada X segundos mandaremos a la gráfica un nuevo valor.
+//Socket.io
 io.sockets.on('connection', function(socket) {
-  var memTotal, memUsed = 0, memFree = 0, memBuffered = 0, memCached = 0, sendData = 1, percentBuffered, percentCached, percentUsed, percentFree;
-  var address = socket.handshake.address;
+	var memTotal, memUsed = 0, memFree = 0,
+			memBuffered = 0, memCached = 0,
+		  sendData = 1, percentBuffered,
+			percentCached, percentUsed, percentFree;
 
-//	var memoriaTotal = 0, memLibre = 0, memUsada = 0, memCache = 0, memBuffer = 0, cpuUsage = 0, cpuTemp = 0, casaTemp = 0, casaHum = 0,
-	//casaGas = 0, valRelay1 = 0, valRelay2 = 0, valRelay3 = 0, valRelay4 = 0;
+	var address = socket.handshake.address;
 
+//Variables para Uptade de la Base de Datos
+  var memoriaTotal = 0, memLibre = 0, memUsada = 0,
+			memCache = 0, memBuffer = 0, cpuUsage = 0,
+			cpuTemp = 0, daemons = 0, casaTemp = 0,
+			casaHum = 0, casaGas = 0, valRelay1 = 0,
+			valRelay2 = 0, valRelay3 = 0, valRelay4 = 0;
 
+//Imprime la dirección IP de la nueva conexión
   console.log("Nueva conexion desde:" + address);
 
   //usa GPIO 17 para encender/apagar relay 1
