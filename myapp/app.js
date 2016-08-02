@@ -323,7 +323,6 @@ sensor.read();
 			casaGas = value;
 		});
   }
-  }
 
 /*
 //update a base de datos
