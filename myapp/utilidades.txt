@@ -142,6 +142,11 @@ var encuentraMAC = function(db, callback) {
    });
 };
 
+"relay1": valRelay1,
+"relay2": valRelay2,
+"relay3": valRelay3,
+"relay4": valRelay4
+
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
 var recuperarBD = function(db, callback) {
    var cursor = db.collection('raspberry').find( );

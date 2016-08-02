@@ -78,11 +78,7 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
 				 "statusCasa":{
 					 "casaTemp": casaTemp,
 					 "casaHum": casaHum,
-					 "gas": casaGas,
-					 "relay1": valRelay1,
-					 "relay2": valRelay2,
-					 "relay3": valRelay3,
-					 "relay4": valRelay4
+					 "gas": casaGas
 				 }
 				}
       }, function(err, results) {
@@ -377,7 +373,6 @@ MongoClient.connect(url, function(err, db){
 		db.close();
 	});
 });
-
 }, 3000);
 
 });
