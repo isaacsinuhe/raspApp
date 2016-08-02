@@ -1,71 +1,10 @@
+//Requires
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-//ººººººººººººººººººººººººººººººººººººººWebService PRUEBA
-var querystring = require('querystring');
-var cerhttp = require('http');
-
-var host = 'geo.groupkt.com';
-
-function performRequest(endpoint, method, data, success){
-
-var dataString = JSON.stringify(data);
-var headers = {};
-
-if(method == 'GET'){
-	endpoint += '?' + querystring.stringify(data);
-}else{
-	headers = {
-		'Content-Type': 'application/json',
-		'Content-Length': dataString.length
-	};
-}
-
-var options = {
-	host: host,
-	path: endpoint,
-	method: method,
-	headers: headers
-};
-
-var req = cerhttp.request(options, function(res){
-	res.setEncoding('utf-8');
-
-	var responseString = '';
-
-	res.on('data', function(data){
-	  responseString += data;
-         });
-
-	res.on('end', function(){
-	  console.log(responseString);
-	  var responseObject = JSON.parse(responseString);
-	  success(responseObject);
-	});
-});
-
-req.write(dataString);
-req.end();
-
-}//--------funcion performRequest--------
-
-
-function obtenerDatos(){
-	performRequest('/ip/201.141.11.78/json', 'GET', {
-		"countryIso2": "MX"
-	},function(data){
-		console.log('Resultado: ' + data.result);
-	});
-}//--------funcion obtenerDatos--------
-
-obtenerDatos();
-//ºººººººººººººººººººººººººººººººººººººº
-
-//Agregadas para pruebas--------------------------------->>
 var http = require('http');
 var app = module.exports.app = express();
 var server = http.createServer(app),
@@ -76,102 +15,37 @@ exec = require('child_process').exec,
 gpio = require('rpi-gpio'),
 child,
 child1;
-//------------------------------------------------------->>
 
-
-
-// uncomment after placing your favicon in /public
+//Metodo para buscar y colocar el favicon dentro de /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+//Metodo para usar archivos estaticos dentro de public
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-//CONTROL relays
-//Declaración de variables y librerias necesarias
-var fs = require('fs');
-var sock;
-
+//Control Relevadores
 var GPIOS = require('onoff').Gpio;
 var relay1 = new GPIOS(17, 'out');
 var relay2 = new GPIOS(18, 'out');
 var relay3 = new GPIOS(19, 'out');
 var relay4 = new GPIOS(20, 'out');
-//Fin CONTROL relays
 
-//MONGO DB
-
-//variables para la conexiòn con la BD
-
+//MongoDB
 var MongoClient = require ('mongodb').MongoClient,
 assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost:27017/raspberry';
 
-//funciòn para conectar con la Base de Datos
-
+//Conectar MongoDB
 MongoClient.connect(url, function(err, db){
-
 	assert.equal(null,err);
 	console.log("Conectado correctamente al servidor de Base de Datos raspberry");
-
 	db.close();
 });
 
-//Funciòn para insertar la collection a la Base de Datos -- YA INSERTADOS
-/*
-var insertarDocumentos = function(db, callback) {
-   db.collection('raspberry').insertOne( {
-      "ws" : {
-	 "_id" : "",
-	 "username" : "",
-	 "password" : ""
-	},
-      "datosRaspBerry" : {
-         "nombre" : "pi",
-         "mac" : "b8:27:eb:e4:91:38",
-         "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
-     	 "uptime" : ""
-	 },
-      "statusRaspBerry" : {
-	 "memTotal" : "",
-	 "memLibre" : "",
-	 "memUsada" : "",
-	 "memCache" : "",
-	 "memBuffer" : "",
-	 "cpuUsage" : "",
-	 "cpuTemp" : "",
-	 "daemons" : ""
-         },
-      "statusCasa" : {
-	 "casaTemp" : "",
-	 "casaHum" : "",
-	 "gas" : "",
-	 "relay1" : "",
-   "relay2" : "",
- 	 "relay3" : "",
-	 "relay4" : ""
-	 },
-	},
-    function(err, result) {
-    assert.equal(err, null);
-    console.log("Se insertaron los documentos dentro de la coleciòn raspberry!!");
-    callback();
-  });
-};
-
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-  insertarDocumentos(db, function() {
-      db.close();
-  });
-});
-
-
 //Funciòn para recuperar el contenido de la colecciòn en la base de datos raspberry
-
 var recuperarBD = function(db, callback) {
    var cursor = db.collection('raspberry').find( );
    cursor.each(function(err, doc) {
@@ -190,21 +64,6 @@ MongoClient.connect(url, function(err, db) {
       db.close();
   });
 });
-*/
-//Funciòn para obtener un documento de la colección
-var encuentraMAC = function(db, callback) {
-   var cursor =db.collection('raspberry').find( { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" } );
-   cursor.each(function(err, doc) {
-      assert.equal(err, null);
-      if (doc != null) {
-         console.dir(doc);
-      } else {
-         callback();
-      }
-   });
-};
-
-
 
 //Función para Modificar datos de la colección
 var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum,
@@ -221,6 +80,7 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
 					 "memBuffer": memBuffer,
 					 "cpuUsage": cpuUsage,
 					 "cpuTemp": cpuTemp
+					 "daemons" : ""
 				 },
 				 "statusCasa":{
 					 "casaTemp": casaTemp,
@@ -238,26 +98,6 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
    });
 };
 
-
-
-//Funciòn para remover colecciòn de la Base de Datos
-/*
-var removerBD = function(db, callback) {
-   db.collection('raspberry').deleteMany( {}, function(err, results) {
-      console.log(results);
-      callback();
-   });
-};
-
-MongoClient.connect(url, function(err, db) {
-  assert.equal(null, err);
-
-  removerBD(db, function() {
-      db.close();
-  });
-});
-*/
-
 //Fin MONGO DB
 
 //Cuando abramos el navegador estableceremos una conexión con socket.io.
@@ -271,9 +111,6 @@ io.sockets.on('connection', function(socket) {
 
 
   console.log("Nueva conexion desde:" + address);
-
-
-  sock = socket;
 
   //usa GPIO 17 para encender/apagar relay 1
   socket.on('relay1', function (data) {
