@@ -45,10 +45,22 @@ MongoClient.connect(url, function(err, db){
 	db.close();
 });
 
+//Mostrar la base de datos buscada por MAC
+var encuentraMAC = function(db, callback) {
+   var cursor =db.collection('raspberry').find( { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" } );
+   cursor.each(function(err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+         console.dir(doc);
+      } else {
+         callback();
+      }
+   });
+};
+
 //Función para Modificar datos de la colección
 var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer,
-															cpuUsage,	cpuTemp, daemons, casaTemp, casaHum, casaGas,
-															valRelay1, valRelay2, valRelay3, valRelay4, callback) {
+															cpuUsage,	cpuTemp, daemons, casaTemp, casaHum, casaGas, callback) {
    db.collection('raspberry').updateOne(
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
@@ -154,7 +166,8 @@ io.sockets.on('connection', function(socket) {
     } else {
 			memTotal = stdout;
 			socket.emit('memoryTotal', stdout);
-			//memoriaTotal = stdout;
+			//variable para el update de la Base de Datos
+			memoriaTotal = memTotal;
     }
   });
 
@@ -174,6 +187,14 @@ io.sockets.on('connection', function(socket) {
       socket.emit('uptime', stdout);
     }
   });
+
+	child = exec("uptime | tail -n 1 | awk '{print $3 $4 $5}'", function (error, stdout, stderr) {
+		if (error !== null) {
+			console.log('exec error: ' + error);
+		} else {
+			socket.emit('uptime', stdout);
+		}
+	});
 
     child = exec("uname -r", function (error, stdout, stderr) {
     if (error !== null) {
@@ -200,6 +221,11 @@ io.sockets.on('connection', function(socket) {
       memUsed = parseInt(memTotal)-parseInt(memFree);
       percentUsed = Math.round(parseInt(memUsed)*100/parseInt(memTotal));
       percentFree = 100 - percentUsed;
+			//Variables usadas para el update de la Base de Datos
+			memLibre = memFree;
+			memUsada = memoriaTotal - memLibre;
+			memLibre = (memUsada*100)/memoriaTotal;
+			memUsada = 100 - memLibre;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -212,7 +238,8 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memBuffered = stdout;
       percentBuffered = Math.round(parseInt(memBuffered)*100/parseInt(memTotal));
-			//memBuffer = (stdout*100)/memoriaTotal;
+			//Variable usada para el update de la Base de Datos
+			memBuffer = (memBuffered*100)/memoriaTotal;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -224,7 +251,7 @@ io.sockets.on('connection', function(socket) {
     if (error == null) {
       memCached = stdout;
       percentCached = Math.round(parseInt(memCached)*100/parseInt(memTotal));
-			//memCache = (stdout*100)/memoriaTotal;
+			memCache = (memCached*100)/memoriaTotal;
     } else {
       sendData = 0;
       console.log('exec error: ' + error);
@@ -261,6 +288,7 @@ io.sockets.on('connection', function(socket) {
       //Es necesario mandar el tiempo (eje X) y un valor de temperatura (eje Y).
       var date = new Date().getTime();
       socket.emit('cpuUsageUpdate', date, parseFloat(stdout));
+			//Variable usada para el update de la Base de Datos
 			cpuUsage = parseFloat(stdout);
     }
   });
@@ -284,12 +312,14 @@ io.sockets.on('connection', function(socket) {
 	      console.log('exec error: ' + error);
 	    } else {
 	      socket.emit('toplist', stdout);
+				//Variable usada para el update de la Base de Datos
+				daemons = stdout;
 	    }
 	  });
 	//}, 5000);
 
 
-// Humidity
+//Script para obtener la Temperatura y Humedad del sensor DHT-11
 //setInterval(function(){
 var sensor = {
   sensors: [ {
@@ -298,39 +328,44 @@ var sensor = {
       pin: 4
   }],
 
-  read: function() {
-      for (var a in this.sensors) {
-          var b = sensorLib.readSpec(this.sensors[a].type, this.sensors[a].pin);
-          var date = new Date().getTime();
-          temp = parseFloat(b.temperature.toFixed(2));
-          hum = parseFloat(b.humidity.toFixed(2));
-          socket.emit('temperatura', temp, date);
-          socket.emit('humedad', hum, date);
-					casaTemp = temp;
-					casaHum = hum;
+read: function() {
+  for (var a in this.sensors) {
+    var b = sensorLib.readSpec(this.sensors[a].type, this.sensors[a].pin);
+    var date = new Date().getTime();
+    temp = parseFloat(b.temperature.toFixed(2));
+    hum = parseFloat(b.humidity.toFixed(2));
+    socket.emit('temperatura', temp, date);
+    socket.emit('humedad', hum, date);
+
+		//Variables para el update en la Base de Datos
+		casaTemp = temp;
+		casaHum = hum;
       }
   }
 };
 sensor.read();
 //}, 2000);
 
+//Script para obtener el valor de retorno del sensor de Gas
 //setInterval(function(){
   gpio.setup(10, gpio.DIR_IN, readInput);
-  function readInput(){
+
+	function readInput(){
     gpio.read(10, function(err, value){
-      var date = new Date().getTime();
+    	var date = new Date().getTime();
       socket.emit('gas', value, date);
+
+			//Variable para el update en la Base de Datos
 			casaGas = value;
 		});
   }
 
-/*
-//update a base de datos
+//Update a base de datos
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
   actualizarBASE(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum,
-								casaGas, valRelay1, valRelay2, valRelay3, valRelay4, function() {
+								casaGas, function() {
       db.close();
   });
 });//update bd
