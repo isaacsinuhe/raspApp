@@ -1,0 +1,143 @@
+//ººººººººººººººººººººººººººººººººººººººWebService PRUEBA
+var querystring = require('querystring');
+var cerhttp = require('http');
+
+var host = 'geo.groupkt.com';
+
+function performRequest(endpoint, method, data, success){
+
+var dataString = JSON.stringify(data);
+var headers = {};
+
+if(method == 'GET'){
+	endpoint += '?' + querystring.stringify(data);
+}else{
+	headers = {
+		'Content-Type': 'application/json',
+		'Content-Length': dataString.length
+	};
+}
+
+var options = {
+	host: host,
+	path: endpoint,
+	method: method,
+	headers: headers
+};
+
+var req = cerhttp.request(options, function(res){
+	res.setEncoding('utf-8');
+
+	var responseString = '';
+
+	res.on('data', function(data){
+	  responseString += data;
+         });
+
+	res.on('end', function(){
+	  console.log(responseString);
+	  var responseObject = JSON.parse(responseString);
+	  success(responseObject);
+	});
+});
+
+req.write(dataString);
+req.end();
+
+}//--------funcion performRequest--------
+
+
+function obtenerDatos(){
+	performRequest('/ip/201.141.11.78/json', 'GET', {
+		"countryIso2": "MX"
+	},function(data){
+		console.log('Resultado: ' + data.result);
+	});
+}//--------funcion obtenerDatos--------
+
+obtenerDatos();
+//ºººººººººººººººººººººººººººººººººººººº
+
+
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+//Funciòn para insertar la collection a la Base de Datos -- YA INSERTADOS
+/*
+var insertarDocumentos = function(db, callback) {
+   db.collection('raspberry').insertOne( {
+      "ws" : {
+	 "_id" : "",
+	 "username" : "",
+	 "password" : ""
+	},
+      "datosRaspBerry" : {
+         "nombre" : "pi",
+         "mac" : "b8:27:eb:e4:91:38",
+         "kernel" : "4.1.19-v7+", //uname -r codigo para obtener kernel desde consola
+     	 "uptime" : ""
+	 },
+      "statusRaspBerry" : {
+	 "memTotal" : "",
+	 "memLibre" : "",
+	 "memUsada" : "",
+	 "memCache" : "",
+	 "memBuffer" : "",
+	 "cpuUsage" : "",
+	 "cpuTemp" : "",
+	 "daemons" : ""
+         },
+      "statusCasa" : {
+	 "casaTemp" : "",
+	 "casaHum" : "",
+	 "gas" : "",
+	 "relay1" : "",
+   "relay2" : "",
+ 	 "relay3" : "",
+	 "relay4" : ""
+	 },
+	},
+    function(err, result) {
+    assert.equal(err, null);
+    console.log("Se insertaron los documentos dentro de la coleciòn raspberry!!");
+    callback();
+  });
+};
+
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  insertarDocumentos(db, function() {
+      db.close();
+  });
+});
+°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+
+//Funciòn para remover colecciòn de la Base de Datos
+/*
+var removerBD = function(db, callback) {
+   db.collection('raspberry').deleteMany( {}, function(err, results) {
+      console.log(results);
+      callback();
+   });
+};
+
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+
+  removerBD(db, function() {
+      db.close();
+  });
+});
+*/
+
+
+//Funciòn para obtener un documento de la colección
+var encuentraMAC = function(db, callback) {
+   var cursor =db.collection('raspberry').find( { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" } );
+   cursor.each(function(err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+         console.dir(doc);
+      } else {
+         callback();
+      }
+   });
+};
