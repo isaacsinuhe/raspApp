@@ -376,7 +376,8 @@ MongoClient.connect(url, function(err, db){
 	encuentraMAC(db, function(){
 		db.close();
 	});
-});*/
+});
+
 }, 3000);
 
 });
