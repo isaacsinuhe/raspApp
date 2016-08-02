@@ -66,7 +66,7 @@ MongoClient.connect(url, function(err, db) {
 });
 
 //Función para Modificar datos de la colección
-var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum,
+var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage,daemons, cpuTemp, casaTemp, casaHum,
 														 casaGas, valRelay1, valRelay2, valRelay3, valRelay4, callback) {
    db.collection('raspberry').updateOne(
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
@@ -79,7 +79,7 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
 					 "memCache": memCache,
 					 "memBuffer": memBuffer,
 					 "cpuUsage": cpuUsage,
-					 "cpuTemp": cpuTemp
+					 "cpuTemp": cpuTemp,
 					 "daemons" : ""
 				 },
 				 "statusCasa":{
