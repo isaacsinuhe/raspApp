@@ -360,7 +360,7 @@ sensor.read();
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
-  actualizarBASE(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, casaTemp, casaHum,
+  actualizarBASE(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, daemons, casaTemp, casaHum,
 								casaGas, function() {
       db.close();
   });
