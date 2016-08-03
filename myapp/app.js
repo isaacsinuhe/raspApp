@@ -183,7 +183,7 @@ MongoClient.connect(url,function(err,db){
 	var resultado = encuentraMAC(db, function(){
 		db.close();
 	});
-	console.log(resultado.statusCasa.relay1);
+	console.log(resultado);
 });
 
 
