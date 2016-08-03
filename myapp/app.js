@@ -94,8 +94,9 @@ var actualizarBASERelay1 = function(db, valRelay1, callback){
 			$set:{
 					"statusCasa.relay1": valRelay1
 			}
-		},
-	);
+		},function(err, results){
+				callback();
+		});
 };
 
 var actualizarBASERelay2 = function(db, valRelay2, callback){
@@ -105,8 +106,9 @@ var actualizarBASERelay2 = function(db, valRelay2, callback){
 			$set:{
 					"statusCasa.relay2": valRelay2
 			}
-		},
-	);
+		},function(err, results){
+				callback();
+		});
 };
 
 var actualizarBASERelay3 = function(db, valRelay3, callback){
@@ -116,8 +118,9 @@ var actualizarBASERelay3 = function(db, valRelay3, callback){
 			$set:{
 					"statusCasa.relay3": valRelay3
 			}
-		},
-	);
+		},function(err, results){
+				callback();
+		});
 };
 
 var actualizarBASERelay4 = function(db, valRelay4, callback){
@@ -127,13 +130,14 @@ var actualizarBASERelay4 = function(db, valRelay4, callback){
 			$set:{
 					"statusCasa.relay4": valRelay4
 			}
-		},
-	);
+		},function(err, results){
+				callback();
+		});
 };
 
 //Puebas REST
-var Client = require('node-rest-client').Client;
 
+var Client = require('node-rest-client').Client;
 var client = new Client();
 
 // registering remote methods
