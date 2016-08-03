@@ -195,8 +195,6 @@ MongoClient.connect(url,function(err,db){
 
 });
 
-
-
   //usa GPIO 17 para encender/apagar relay 1
   socket.on('relay1', function (data) {
     console.log("Relay 1: " +data);
@@ -514,6 +512,23 @@ setInterval(function(){
 	client.methods.jsonMethod(function (data, response) {
 	    // parsed response body as js object
 	    console.log(data);
+	});
+
+	var dato1 = true, dato2 = true, dato3 = true, dato4 = true;
+	MongoClient.connect(url, function(err, db){
+		assert.equal(null, err);
+		actualizarBASERelay1(db, dato1, function(){
+			db.close();
+		});
+		actualizarBASERelay2(db, dato2, function(){
+			db.close();
+		});
+		actualizarBASERelay3(db, dato3, function(){
+			db.close();
+		});
+		actualizarBASERelay4(db, dato4, function(){
+			db.close();
+		});
 	});
 }, 5000);
 
