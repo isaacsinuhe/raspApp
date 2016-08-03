@@ -112,6 +112,10 @@ client.methods.putMethod(args, function (data, response) {
     console.log(data);
 });
 
+client.methods.jsonMethod(function (data, response) {
+    // parsed response body as js object
+    console.log(data);
+});
 
 //Socket.io
 io.sockets.on('connection', function(socket) {
