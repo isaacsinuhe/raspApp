@@ -77,7 +77,6 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
 				  "statusCasa.casaHum": casaHum,
 				  "statusCasa.gas": casaGas
 				 }
-				}
       }, function(err, results) {
       //console.log(results);
       callback();
