@@ -26,9 +26,17 @@
         var socket = io.connect();
         socket.on('statusRelay1', function (value) {
           if(value == 1){
-            document.getElementById("estado1").innerHTML = "prendida prueba";
+            document.getElementById("estado1").innerHTML = "Encendida";
           }else{
-            document.getElementById("estado1").innerHTML = "apagada prueba";
+            document.getElementById("estado1").innerHTML = "Apagada";
+          }
+        });
+
+        socket.on('statusRelay2', function (value) {
+          if(value ==1){
+            document.getElementById("estado2").innerHTML = "Encendida";
+          }else{
+            document.getElementById("estado2").innerHTML = "Apagada";
           }
         });
     </script>
