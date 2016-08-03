@@ -218,9 +218,9 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay1(db, valRelay1, function(){
 				db.close();
 			});
-			encuentraMAC(db, function(){
+			/*encuentraMAC(db, function(){
 				db.close();
-			});
+			});*/
 		});//MongoClient
   });
 
@@ -240,9 +240,9 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay2(db, valRelay2, function(){
 				db.close();
 			});
-			encuentraMAC(db, function(){
+			/*encuentraMAC(db, function(){
 				db.close();
-			});
+			});*/
 		});//MongoClient
   });
 
@@ -262,9 +262,9 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay3(db, valRelay3, function(){
 				db.close();
 			});
-			encuentraMAC(db, function(){
+			/*encuentraMAC(db, function(){
 				db.close();
-			});
+			});*/
 		});//MongoClient
   });
 
@@ -284,9 +284,9 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay4(db, valRelay4, function(){
 				db.close();
 			});
-			encuentraMAC(db, function(){
+			/*encuentraMAC(db, function(){
 				db.close();
-			});
+			});*/
 		});//MongoClient
   });
 

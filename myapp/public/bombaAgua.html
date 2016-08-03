@@ -48,16 +48,16 @@
     }
     function relay3Off(){
       socket.emit('relay3', 'off');
-	document.getElementById("estado1").innerHTML = "Apagada";
+	     document.getElementById("estado1").innerHTML = "Apagada";
     }
 
     function relay4On(){
       socket.emit('relay4', 'on');
-	document.getElementById("estado2").innerHTML = "Encendida";
+	    document.getElementById("estado2").innerHTML = "Encendida";
     }
     function relay4Off(){
       socket.emit('relay4', 'off');
-	document.getElementById("estado2").innerHTML = "Apagada";
+	    document.getElementById("estado2").innerHTML = "Apagada";
     }
     </script>
 
