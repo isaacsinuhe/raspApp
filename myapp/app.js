@@ -514,7 +514,8 @@ setInterval(function(){
 	    console.log(data);
 	});
 
-	var dato1 = true, dato2 = true, dato3 = true, dato4 = true;
+	var dato1 = 1, dato2 = 1, dato3 = 1, dato4 = 1;
+
 	MongoClient.connect(url, function(err, db){
 		assert.equal(null, err);
 		actualizarBASERelay1(db, dato1, function(){
@@ -529,6 +530,10 @@ setInterval(function(){
 		actualizarBASERelay4(db, dato4, function(){
 			db.close();
 		});
+		relay1.writeSync(dato1);
+		relay2.writeSync(dato2);
+		relay3.writeSync(dato3);
+		relay4.writeSync(dato4);
 	});
 }, 5000);
 
