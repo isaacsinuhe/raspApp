@@ -101,13 +101,13 @@ client.methods.jsonMethod(function (data, response) {
 });
 
 var args = {
-    data: { title: "hello" },
+    data: { algo: "hello" },
     headers: { "Content-Type": "application/json" }
 };
 
-client.registerMethod("putMethod", "https://jsonplaceholder.typicode.com/posts/1", "PUT");
+client.registerMethod("postMethod", "https://jsonplaceholder.typicode.com/posts/1", "POST");
 
-client.methods.putMethod(args, function (data, response) {
+client.methods.postMethod(args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
