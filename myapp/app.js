@@ -192,9 +192,6 @@ io.sockets.on('connection', function(socket) {
 		//Almaceno valRelay1 y muestro
 		MongoClient.connect(url, function(err, db){
 			assert.equal(null, err);
-			actualizarBASERelay1(db, valRelay1, function(){
-				db.close();
-			});
 			encuentraMAC(db, function(){
 				db.close();
 			});
@@ -214,9 +211,6 @@ io.sockets.on('connection', function(socket) {
 		//Almaceno valRelay2 y muestro
 		MongoClient.connect(url, function(err, db){
 			assert.equal(null, err);
-			actualizarBASERelay2(db, valRelay2, function(){
-				db.close();
-			});
 			encuentraMAC(db, function(){
 				db.close();
 			});
@@ -236,9 +230,6 @@ io.sockets.on('connection', function(socket) {
 		//Almaceno valRelay3 y muestro
 		MongoClient.connect(url, function(err, db){
 			assert.equal(null, err);
-			actualizarBASERelay3(db, valRelay3, function(){
-				db.close();
-			});
 			encuentraMAC(db, function(){
 				db.close();
 			});
@@ -258,9 +249,6 @@ io.sockets.on('connection', function(socket) {
 		//Almaceno valRelay1 y muestro
 		MongoClient.connect(url, function(err, db){
 			assert.equal(null, err);
-			actualizarBASERelay4(db, valRelay4, function(){
-				db.close();
-			});
 			encuentraMAC(db, function(){
 				db.close();
 			});
@@ -477,6 +465,18 @@ MongoClient.connect(url, function(err, db) {
 								casaGas, function() {
       db.close();
   });
+	actualizarBASERelay1(db, valRelay1, function(){
+		db.close();
+	});
+	actualizarBASERelay2(db, valRelay2, function(){
+		db.close();
+	});
+	actualizarBASERelay3(db, valRelay3, function(){
+		db.close();
+	});
+	actualizarBASERelay4(db, valRelay4, function(){
+		db.close();
+	});
 });
 /*
 //mostrar BD
