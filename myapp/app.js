@@ -397,10 +397,18 @@ MongoClient.connect(url, function(err, db){
 		db.close();
 	});
 });*/
-client.methods.jsonMethod(function (data, response) {
+var args = {
+    data: { "memoriaTotal" : memoriaTotal,
+	 					"memLibre" : memLibre},
+    headers: { "Content-Type": "application/json" }
+};
+
+
+client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
+
 }, 3000);
 
 });
