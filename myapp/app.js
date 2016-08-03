@@ -106,7 +106,7 @@ var args = {
 };
 
 
-client.post("https://jsonplaceholder.typicode.com/posts/100", args, function (data, response) {
+client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
