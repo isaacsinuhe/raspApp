@@ -82,7 +82,7 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
 				 }
 				}
       }, function(err, results) {
-      console.log(results);
+      //console.log(results);
       callback();
    });
 };
