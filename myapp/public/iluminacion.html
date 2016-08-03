@@ -24,6 +24,13 @@
 
     <script>
         var socket = io.connect();
+        socket.on('statusRelay1', function (value) {
+          if(value == 1){
+            document.getElementById("estado1").innerHTML = "prendida prueba";
+          }else{
+            document.getElementById("estado1").innerHTML = "apagada prueba";
+          }
+        });
     </script>
 
     <script>

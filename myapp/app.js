@@ -176,19 +176,19 @@ io.sockets.on('connection', function(socket) {
 
 
 //Imprime la dirección IP de la nueva conexión
-  console.log("Nueva conexion desde:" + address);
+console.log("Nueva conexion desde:" + address);
 
 var mandarRelay1 = function(db, callback){
-  var cursor =db.collection('raspberry').find(); 
+  var cursor =db.collection('raspberry').find();
    cursor.each(function(err, doc) {
-assert.equal(err, null); 
+assert.equal(err, null);
 if (doc != null) {
- console.dir(doc.statusCasa.relay1); 
- console.dir(doc.statusCasa.relay2); 
- console.dir(doc.statusCasa.relay3); 
- console.dir(doc.statusCasa.relay4); 
-} 
-else { callback(); } 
+socket.emit('statusRelay1', doc.statusCasa.relay1);
+socket.emit('statusRelay2', doc.statusCasa.relay2);
+socket.emit('statusRelay3', doc.statusCasa.relay3);
+socket.emit('statusRelay4', doc.statusCasa.relay4);
+}
+else { callback(); }
 });
 }
 
@@ -197,7 +197,7 @@ MongoClient.connect(url,function(err,db){
 	mandarRelay1(db, function(){
 		db.close();
 	});
-	
+
 });
 
 
