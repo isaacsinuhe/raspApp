@@ -182,6 +182,7 @@ io.sockets.on('connection', function(socket) {
   //usa GPIO 17 para encender/apagar relay 1
   socket.on('relay1', function (data) {
     console.log("Relay 1: " +data);
+		relay1.writeSync(valRelay1);
     if (data == 'on'){
         relay1.writeSync(1);
 				valRelay1 = 1;
@@ -201,6 +202,7 @@ io.sockets.on('connection', function(socket) {
   //usa GPIO 18 para encender/apagar relay 2
   socket.on('relay2', function (data) {
     console.log("Relay 2: "+data);
+		relay2.writeSync(valRelay2);
     if (data == 'on'){
         relay2.writeSync(1);
 				valRelay2 = 1;
@@ -220,6 +222,7 @@ io.sockets.on('connection', function(socket) {
 	//usa GPIO 19 para encender/apagar relay 3
   socket.on('relay3', function (data) {
     console.log("Relay 3: "+data);
+		relay3.writeSync(valRelay3);
     if (data == 'on'){
         relay3.writeSync(1);
 				valRelay3 = 1;
@@ -239,6 +242,7 @@ io.sockets.on('connection', function(socket) {
 	//usa GPIO 20 para encender/apagar relay 4
   socket.on('relay4', function (data) {
     console.log("Relay 4: "+data);
+		relay4.writeSync(valRelay4);
     if (data == 'on'){
           relay4.writeSync(1);
 					valRelay4 = 1;
