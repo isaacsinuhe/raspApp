@@ -93,7 +93,7 @@ var Client = require('node-rest-client').Client;
 var client = new Client();
 
 // registering remote methods
-client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/101", "GET");
+client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/100", "GET");
 
 client.methods.jsonMethod(function (data, response) {
     // parsed response body as js object
@@ -106,7 +106,7 @@ var args = {
 };
 
 
-client.post("https://jsonplaceholder.typicode.com/posts/101", args, function (data, response) {
+client.post("https://jsonplaceholder.typicode.com/posts/100", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
