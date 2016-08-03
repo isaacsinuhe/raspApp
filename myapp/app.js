@@ -105,7 +105,7 @@ var args = {
     headers: { "Content-Type": "application/json" }
 };
 
-client.registerMethod("postMethod", "https://jsonplaceholder.typicode.com/posts", "PUT");
+client.registerMethod("postMethod", "https://jsonplaceholder.typicode.com/posts/1", "PUT");
 
 client.methods.postMethod(args, function (data, response) {
     // parsed response body as js object
