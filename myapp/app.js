@@ -93,13 +93,14 @@ var Client = require('node-rest-client').Client;
 var client = new Client();
 
 // registering remote methods
-client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/101", "GET");
+client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/100", "GET");
 
 client.methods.jsonMethod(function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
 
+/*
 var args = {
     data: { test : "Hola mi nombre es Joan un gusto" },
     headers: { "Content-Type": "application/json" }
@@ -110,7 +111,7 @@ client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, 
     // parsed response body as js object
     console.log(data);
 });
-
+*/
 //Socket.io
 io.sockets.on('connection', function(socket) {
 	var memTotal, memUsed = 0, memFree = 0,
@@ -396,7 +397,8 @@ MongoClient.connect(url, function(err, db){
 	encuentraMAC(db, function(){
 		db.close();
 	});
-});*/
+});
+
 var args = {
     data: { "memoriaTotal" : memoriaTotal,
 	 					"memLibre" : memLibre},
@@ -408,7 +410,7 @@ client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, 
     // parsed response body as js object
     console.log(data);
 });
-
+*/
 }, 3000);
 
 });
