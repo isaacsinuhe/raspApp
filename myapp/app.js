@@ -65,20 +65,17 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
         $set:{
-					"statusRaspBerry" :{
-					 "memTotal": memoriaTotal,
- 					 "memLibre": memLibre,
-					 "memUsada": memUsada,
-					 "memCache": memCache,
-					 "memBuffer": memBuffer,
-					 "cpuUsage": cpuUsage,
-					 "cpuTemp": cpuTemp,
-					 "daemons" : daemons,
-				 },
-				 "statusCasa":{
-					 "casaTemp": casaTemp,
-					 "casaHum": casaHum,
-					 "gas": casaGas
+					"statusRaspBerry.memTotal" : memoriaTotal,
+					"statusRaspBerry.memLibre": memLibre,
+					"statusRaspBerry.memUsada": memUsada,
+					"statusRaspBerry.memCache": memCache,
+					"statusRaspBerry.memBuffer": memBuffer,
+					"statusRaspBerry.cpuUsage": cpuUsage,
+					"statusRaspBerry.cpuTemp": cpuTemp,
+					"statusRaspBerry.daemons" : daemons,
+				  "statusCasa.casaTemp": casaTemp,
+				  "statusCasa.casaHum": casaHum,
+				  "statusCasa.gas": casaGas
 				 }
 				}
       }, function(err, results) {
