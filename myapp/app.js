@@ -52,8 +52,10 @@ var encuentraMAC = function(db, callback) {
       assert.equal(err, null);
       if (doc != null) {
          console.dir(doc);
+				 return doc;
       } else {
          callback();
+				 return null;
       }
    });
 };
@@ -172,8 +174,18 @@ io.sockets.on('connection', function(socket) {
 			casaHum = 0, casaGas = 0, valRelay1 = 0,
 			valRelay2 = 0, valRelay3 = 0, valRelay4 = 0;
 
+
 //Imprime la dirección IP de la nueva conexión
   console.log("Nueva conexion desde:" + address);
+
+MongoClient.connect(url,function(err,db){
+	assert.equal(null, err);
+	var resultado = encuentraMAC(db, function(){
+		db.close();
+	});
+	console.log(resultado.statusCasa.relay1);
+});
+
 
   //usa GPIO 17 para encender/apagar relay 1
   socket.on('relay1', function (data) {
