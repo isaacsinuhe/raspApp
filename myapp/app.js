@@ -181,9 +181,9 @@ io.sockets.on('connection', function(socket) {
 MongoClient.connect(url,function(err,db){
 	assert.equal(null, err);
 	var resultado = encuentraMAC(db, function(){
-		console.log(resultado.statusCasa.relay1);
 		db.close();
 	});
+	console.log(resultado);
 });
 
 
