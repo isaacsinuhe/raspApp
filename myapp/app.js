@@ -141,11 +141,6 @@ var client = new Client();
 // registering remote methods
 client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/100", "GET");
 
-client.methods.jsonMethod(function (data, response) {
-    // parsed response body as js object
-    console.log(data);
-});
-
 /*
 var args = {
     data: { test : "Hola mi nombre es Joan un gusto" },
@@ -218,9 +213,6 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay1(db, valRelay1, function(){
 				db.close();
 			});
-			/*encuentraMAC(db, function(){
-				db.close();
-			});*/
 		});//MongoClient
   });
 
@@ -240,9 +232,6 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay2(db, valRelay2, function(){
 				db.close();
 			});
-			/*encuentraMAC(db, function(){
-				db.close();
-			});*/
 		});//MongoClient
   });
 
@@ -262,9 +251,6 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay3(db, valRelay3, function(){
 				db.close();
 			});
-			/*encuentraMAC(db, function(){
-				db.close();
-			});*/
 		});//MongoClient
   });
 
@@ -284,9 +270,6 @@ MongoClient.connect(url,function(err,db){
 			actualizarBASERelay4(db, valRelay4, function(){
 				db.close();
 			});
-			/*encuentraMAC(db, function(){
-				db.close();
-			});*/
 		});//MongoClient
   });
 
@@ -496,8 +479,10 @@ sensor.read();
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
-  actualizarBASE(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer, cpuUsage, cpuTemp, daemons, casaTemp, casaHum,
-								casaGas, function() {
+  actualizarBASE(db, memoriaTotal, memLibre,
+								memUsada, memCache, memBuffer,
+								cpuUsage, cpuTemp, daemons,
+								casaTemp, casaHum,casaGas, function() {
       db.close();
   });
 });
@@ -524,6 +509,13 @@ client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, 
 });
 */
 }, 3000);
+
+setInterval(function(){
+	client.methods.jsonMethod(function (data, response) {
+	    // parsed response body as js object
+	    console.log(data);
+	});
+}, 5000);
 
 });
 
