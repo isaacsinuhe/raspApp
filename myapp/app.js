@@ -178,13 +178,28 @@ io.sockets.on('connection', function(socket) {
 //Imprime la dirección IP de la nueva conexión
   console.log("Nueva conexion desde:" + address);
 
+var mandarRelay1 = function(db, callback){
+  var cursor =db.collection('raspberry').find(); 
+   cursor.each(function(err, doc) {
+assert.equal(err, null); 
+if (doc != null) {
+ console.dir(doc.statusCasa.relay1); 
+ console.dir(doc.statusCasa.relay2); 
+ console.dir(doc.statusCasa.relay3); 
+ console.dir(doc.statusCasa.relay4); 
+} 
+else { callback(); } 
+});
+}
+
 MongoClient.connect(url,function(err,db){
 	assert.equal(null, err);
-	var resultado = encuentraMAC(db, function(){
+	mandarRelay1(db, function(){
 		db.close();
 	});
-	console.log(resultado);
+	
 });
+
 
 
   //usa GPIO 17 para encender/apagar relay 1
