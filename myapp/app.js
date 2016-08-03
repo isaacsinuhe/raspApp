@@ -87,6 +87,50 @@ var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, me
    });
 };
 
+var actualizarBASERelay1 = function(db, valRelay1, callback){
+	db.collection('raspberry').updateOne(
+		{ "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
+		 {
+			$set:{
+					"statusCasa.relay1": valRelay1
+			}
+		},
+	);
+};
+
+var actualizarBASERelay2 = function(db, valRelay2, callback){
+	db.collection('raspberry').updateOne(
+		{ "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
+		 {
+			$set:{
+					"statusCasa.relay2": valRelay2
+			}
+		},
+	);
+};
+
+var actualizarBASERelay3 = function(db, valRelay3, callback){
+	db.collection('raspberry').updateOne(
+		{ "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
+		 {
+			$set:{
+					"statusCasa.relay3": valRelay3
+			}
+		},
+	);
+};
+
+var actualizarBASERelay4 = function(db, valRelay4, callback){
+	db.collection('raspberry').updateOne(
+		{ "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
+		 {
+			$set:{
+					"statusCasa.relay4": valRelay4
+			}
+		},
+	);
+};
+
 //Puebas REST
 var Client = require('node-rest-client').Client;
 
@@ -141,6 +185,16 @@ io.sockets.on('connection', function(socket) {
         relay1.writeSync(0);
 				valRelay1 = 0;
     }
+		//Almaceno valRelay1 y muestro
+		MongoClient.connect(url, function(err, db){
+			assert.equal(null, err);
+			actualizarBASERelay1(db, valRelay1, function(){
+				db.close();
+			});
+			encuentraMAC(db, function(){
+				db.close();
+			});
+		});//MongoClient
   });
 
   //usa GPIO 18 para encender/apagar relay 2
@@ -153,6 +207,16 @@ io.sockets.on('connection', function(socket) {
         relay2.writeSync(0);
 				valRelay2 = 0;
     }
+		//Almaceno valRelay2 y muestro
+		MongoClient.connect(url, function(err, db){
+			assert.equal(null, err);
+			actualizarBASERelay2(db, valRelay2, function(){
+				db.close();
+			});
+			encuentraMAC(db, function(){
+				db.close();
+			});
+		});//MongoClient
   });
 
 	//usa GPIO 19 para encender/apagar relay 3
@@ -165,6 +229,16 @@ io.sockets.on('connection', function(socket) {
         relay3.writeSync(0);
 				valRelay3 = 0;
     }
+		//Almaceno valRelay3 y muestro
+		MongoClient.connect(url, function(err, db){
+			assert.equal(null, err);
+			actualizarBASERelay3(db, valRelay3, function(){
+				db.close();
+			});
+			encuentraMAC(db, function(){
+				db.close();
+			});
+		});//MongoClient
   });
 
 	//usa GPIO 20 para encender/apagar relay 4
@@ -177,6 +251,16 @@ io.sockets.on('connection', function(socket) {
          relay4.writeSync(0);
 				 valRelay4 = 0;
     }
+		//Almaceno valRelay1 y muestro
+		MongoClient.connect(url, function(err, db){
+			assert.equal(null, err);
+			actualizarBASERelay4(db, valRelay4, function(){
+				db.close();
+			});
+			encuentraMAC(db, function(){
+				db.close();
+			});
+		});//MongoClient
   });
 
 
@@ -399,18 +483,19 @@ MongoClient.connect(url, function(err, db){
 	});
 });
 */
+/*
 var args = {
     data: { "memoriaTotal" : memoriaTotal,
 	 					"memLibre" : memLibre},
     headers: { "Content-Type": "application/json" }
 };
-
-
+*/
+/*
 client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
-
+*/
 }, 3000);
 
 });
