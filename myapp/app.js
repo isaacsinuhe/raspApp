@@ -101,7 +101,7 @@ client.methods.jsonMethod(function (data, response) {
 });
 
 var args = {
-    data: { title : "Hola mi nombre es Joan un gusto" },
+    data: { test : "Hola mi nombre es Joan un gusto" },
     headers: { "Content-Type": "application/json" }
 };
 
