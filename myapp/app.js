@@ -398,7 +398,7 @@ MongoClient.connect(url, function(err, db){
 		db.close();
 	});
 });
-
+*/
 var args = {
     data: { "memoriaTotal" : memoriaTotal,
 	 					"memLibre" : memLibre},
@@ -410,7 +410,7 @@ client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, 
     // parsed response body as js object
     console.log(data);
 });
-*/
+
 }, 3000);
 
 });
