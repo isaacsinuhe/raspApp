@@ -542,35 +542,36 @@ setInterval(function(){
 	    console.log(relevador3);
 	    console.log(relevador4);
 
-			(relevador1.value == true) ? 1 : 0;
-			(relevador2.value == true) ? 1 : 0;
-			(relevador3.value == true) ? 1 : 0;
-			(relevador4.value == true) ? 1 : 0;
+			relevador1 = (relevador1.value == true) ? 1 : 0;
+			relevador2 = (relevador2.value == true) ? 1 : 0;
+			relevador3 = (relevador3.value == true) ? 1 : 0;
+			relevador4 =(relevador4.value == true) ? 1 : 0;
+
+
+			MongoClient.connect(url, function(err, db){
+				assert.equal(null, err);
+				actualizarBASERelay1(db, relevador1, function(){
+					db.close();
+				});
+				actualizarBASERelay2(db, relevador2, function(){
+					db.close();
+				});
+				actualizarBASERelay3(db, relevador3, function(){
+					db.close();
+				});
+				actualizarBASERelay4(db, relevador4, function(){
+					db.close();
+				});
+
+				//Cambia el estado de los relays
+				relay1.writeSync(relevador1);
+				relay2.writeSync(relevador2);
+				relay3.writeSync(relevador3);
+				relay4.writeSync(relevador4);
+			});
 
 	});
-	/*
-	var dato1 = 1, dato2 = 1, dato3 = 1, dato4 = 1;
 
-	MongoClient.connect(url, function(err, db){
-		assert.equal(null, err);
-		actualizarBASERelay1(db, dato1, function(){
-			db.close();
-		});
-		actualizarBASERelay2(db, dato2, function(){
-			db.close();
-		});
-		actualizarBASERelay3(db, dato3, function(){
-			db.close();
-		});
-		actualizarBASERelay4(db, dato4, function(){
-			db.close();
-		});
-		//Para cuando esté el WebService
-		//relay1.writeSync(dato1);
-		//relay2.writeSync(dato2);
-		//relay3.writeSync(dato3);
-		//relay4.writeSync(dato4);
-	});*/
 }, 1000);
 
 });
