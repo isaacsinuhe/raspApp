@@ -502,7 +502,10 @@ var args = {
         		"status.memLibre" : memLibre,
         		"status.memCache" : memCache,
         		"status.memBuffer" : memBuffer,
-        		"status.daemons" : daemons
+        		"status.daemons" : daemons,
+						"status.gas" : casaGas,
+						"status.humCasa" casaHum,
+						"status.tempCasa" casaTemp
 					},
     headers: { "Content-Type": "application/json" }
 };
@@ -543,7 +546,7 @@ setInterval(function(){
 		//relay3.writeSync(dato3);
 		//relay4.writeSync(dato4);
 	});*/
-}, 5000);
+}, 1000);
 
 });
 
