@@ -141,7 +141,7 @@ var client = new Client();
 var apiHost = "http://10.2.1.47:3000/";
 var apiHost2 = "https://jsonplaceholder.typicode.com/";
 
-var apiRoute = apiHost2+"posts/";
+var apiRoute = apiHost+"api/status/";
 var apiSensores = apiHost+"api/raspberry/";
 //var apiRoute = apiHost+"posts/";
 //var apiRoute = apiHost+"posts/";
@@ -504,23 +504,23 @@ MongoClient.connect(url, function(err, db){
 
 //El siguiente codigo es para realizar el PUT a la pagina de la nube...
 var args = {
-    data: { "status.cpuUsage" : cpuUsage,
-        		"status.cpuTemp" : cpuTemp,
-        		"status.memUsada" : memUsada,
-        		"status.memLibre" : memLibre,
-        		"status.memCache" : memCache,
-        		"status.memBuffer" : memBuffer,
-        		"status.daemons" : daemons,
-						"status.gas" : casaGas,
-						"status.humCasa" : casaHum,
-						"status.tempCasa" : casaTemp,
+    data: { "cpuUsage" : cpuUsage,
+        		"cpuTemp" : cpuTemp,
+        		"memUsada" : memUsada,
+        		"memLibre" : memLibre,
+        		"memCache" : memCache,
+        		"memBuffer" : memBuffer,
+        		"daemons" : daemons,
+						"gas" : casaGas,
+						"humCasa" : casaHum,
+						"tempCasa" : casaTemp,
 						"mac" : "b8:27:eb:e4:91:38"
 					},
     headers: { "Content-Type": "application/json" }
 };
 
 
-client.put(apiRoute +"1", args, function (data, response) {
+client.put(apiRoute +"b8:27:eb:e4:91:38", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
