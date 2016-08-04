@@ -516,7 +516,7 @@ var args = {
         		"daemons" : daemons,
 						"gas" : casaGas,
 						"humCasa" : casaHum,
-						"tempCasa" : casaTemp,
+						"tempCasa" : 100,
 						"mac" : "b8:27:eb:e4:91:38"
 					},
     headers: { "Content-Type": "application/json" }
