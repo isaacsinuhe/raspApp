@@ -67,7 +67,7 @@ var actualizarBASE = function(db, tiempoPrendida, memoriaTotal, memLibre, memUsa
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
         $set:{
-					"datosRaspBerry.uptime" = tiempoPrendida,
+					"datosRaspBerry.uptime" : tiempoPrendida,
 					"statusRaspBerry.memTotal" : memoriaTotal,
 					"statusRaspBerry.memLibre": memLibre,
 					"statusRaspBerry.memUsada": memUsada,
