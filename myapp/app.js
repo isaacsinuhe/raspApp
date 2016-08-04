@@ -508,7 +508,7 @@ var args = {
 };
 
 
-client.("https://jsonplaceholder.typicode.com/posts", args, function (data, response) {
+client.put("https://jsonplaceholder.typicode.com/posts", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
