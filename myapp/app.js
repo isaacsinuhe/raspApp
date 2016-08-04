@@ -531,9 +531,16 @@ setInterval(function(){
 
 	client.methods.jsonMethod(function (data, response) {
 	    // parsed response body as js object
-	    console.log(data.nombre);
-	    console.log(data.raspberries[0].mac);
-	    console.log(data.raspberries[0].status.humCasa[0]);
+			var arregloRelays = data.raspberries[0].status.relays;
+
+		  var relevador1 = data.raspberries[0].status.relays[0][arregloRelays.lenght - 1];
+		  var relevador2 = data.raspberries[0].status.relays[1][arregloRelays.lenght - 1];
+		  var relevador3 = data.raspberries[0].status.relays[2][arregloRelays.lenght - 1];
+		  var relevador4 = data.raspberries[0].status.relays[3][arregloRelays.lenght - 1];
+			console.log(relevador1);
+	    console.log(relevador2);
+	    console.log(relevador3);
+	    console.log(relevador4);
 
 
 	});
