@@ -496,13 +496,13 @@ MongoClient.connect(url, function(err, db){
 
 //El siguiente codigo es para realizar el PUT a la pagina de la nube...
 var args = {
-    data: { "status.cpuUsage" = cpuUsage,
-        		"status.cpuTemp" = cpuTemp,
-        		"status.memUsada" = memUsada,
-        		"status.memLibre" = memLibre,
-        		"status.memCache" = memCache,
-        		"status.memBuffer" = memBuffer,
-        		"status.daemons" = daemons
+    data: { "status.cpuUsage" : cpuUsage,
+        		"status.cpuTemp" : cpuTemp,
+        		"status.memUsada" : memUsada,
+        		"status.memLibre" : memLibre,
+        		"status.memCache" : memCache,
+        		"status.memBuffer" : memBuffer,
+        		"status.daemons" : daemons
 					},
     headers: { "Content-Type": "application/json" }
 };
