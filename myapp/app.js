@@ -533,11 +533,11 @@ setInterval(function(){
 	    // parsed response body as js object
 			var arregloRelays = data.raspberries[0].status.relays;
 
-		  var relevador1 = data.raspberries[0].status.relays[0][arregloRelays.lenght - 1];
-		  var relevador2 = data.raspberries[0].status.relays[1][arregloRelays.lenght - 1];
-		  var relevador3 = data.raspberries[0].status.relays[2][arregloRelays.lenght - 1];
-		  var relevador4 = data.raspberries[0].status.relays[3][arregloRelays.lenght - 1];
-			console.log(relevador1);
+		  var relevador1 = data.raspberries[0].status.relays[0][arregloRelays[0].length - 1];
+		  var relevador2 = data.raspberries[0].status.relays[1][arregloRelays[1].length - 1];
+		  var relevador3 = data.raspberries[0].status.relays[2][arregloRelays[2].length - 1];
+		  var relevador4 = data.raspberries[0].status.relays[3][arregloRelays[3].length - 1];
+	    console.log(relevador1);
 	    console.log(relevador2);
 	    console.log(relevador3);
 	    console.log(relevador4);
