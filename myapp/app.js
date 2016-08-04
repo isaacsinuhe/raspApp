@@ -61,12 +61,13 @@ var encuentraMAC = function(db, callback) {
 };
 
 //Función para Modificar datos de la colección
-var actualizarBASE = function(db, memoriaTotal, memLibre, memUsada, memCache, memBuffer,
+var actualizarBASE = function(db, tiempoPrendida, memoriaTotal, memLibre, memUsada, memCache, memBuffer,
 															cpuUsage,	cpuTemp, daemons, casaTemp, casaHum, casaGas, callback) {
    db.collection('raspberry').updateOne(
 		 { "datosRaspBerry.mac" : "b8:27:eb:e4:91:38" },
       {
         $set:{
+					"datosRaspBerry.uptime" = tiempoPrendida,
 					"statusRaspBerry.memTotal" : memoriaTotal,
 					"statusRaspBerry.memLibre": memLibre,
 					"statusRaspBerry.memUsada": memUsada,
@@ -171,7 +172,7 @@ io.sockets.on('connection', function(socket) {
 	var address = socket.handshake.address;
 
 //Variables para Uptade de la Base de Datos
-  var memoriaTotal = 0, memLibre = 0, memUsada = 0,
+  var tiempoPrendida = 0, memoriaTotal = 0, memLibre = 0, memUsada = 0,
 			memCache = 0, memBuffer = 0, cpuUsage = 0,
 			cpuTemp = 0, daemons = 0, casaTemp = 0,
 			casaHum = 0, casaGas = 0, valRelay1 = 0,
@@ -422,6 +423,7 @@ MongoClient.connect(url,function(err,db){
 	      console.log('exec error: ' + error);
 	    } else {
 	      socket.emit('uptime', stdout);
+				tiempoPrendida = stdout;
 	    }
 	  });
 	//}, 5000);
@@ -485,7 +487,7 @@ sensor.read();
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
 
-  actualizarBASE(db, memoriaTotal, memLibre,
+  actualizarBASE(db, tiempoPrendida, memoriaTotal, memLibre,
 								memUsada, memCache, memBuffer,
 								cpuUsage, cpuTemp, daemons,
 								casaTemp, casaHum,casaGas, function() {
@@ -504,7 +506,8 @@ MongoClient.connect(url, function(err, db){
 
 //El siguiente codigo es para realizar el PUT a la pagina de la nube...
 var args = {
-    data: { "cpuUsage" : cpuUsage,
+    data: { "uptime" : tiempoPrendida,
+						"cpuUsage" : cpuUsage,
         		"cpuTemp" : cpuTemp,
         		"memUsada" : memUsada,
         		"memLibre" : memLibre,
