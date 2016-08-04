@@ -504,8 +504,8 @@ var args = {
         		"status.memBuffer" : memBuffer,
         		"status.daemons" : daemons,
 						"status.gas" : casaGas,
-						"status.humCasa" casaHum,
-						"status.tempCasa" casaTemp
+						"status.humCasa" : casaHum,
+						"status.tempCasa" : casaTemp
 					},
     headers: { "Content-Type": "application/json" }
 };
