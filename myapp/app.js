@@ -513,7 +513,7 @@ setInterval(function(){
 	    // parsed response body as js object
 	    console.log(data);
 	});
-
+	/*
 	var dato1 = 1, dato2 = 1, dato3 = 1, dato4 = 1;
 
 	MongoClient.connect(url, function(err, db){
@@ -530,11 +530,12 @@ setInterval(function(){
 		actualizarBASERelay4(db, dato4, function(){
 			db.close();
 		});
-		relay1.writeSync(dato1);
-		relay2.writeSync(dato2);
-		relay3.writeSync(dato3);
-		relay4.writeSync(dato4);
-	});
+		//Para cuando esté el WebService
+		//relay1.writeSync(dato1);
+		//relay2.writeSync(dato2);
+		//relay3.writeSync(dato3);
+		//relay4.writeSync(dato4);
+	});*/
 }, 5000);
 
 });
