@@ -534,16 +534,14 @@ setInterval(function(){
 
 	client.methods.jsonMethod(function (data, response) {
 	    // parsed response body as js object
+			console.log(data);
+
 			var arregloRelays = data.raspberries[0].status.relays;
 
 		  var relevador1 = data.raspberries[0].status.relays[0][arregloRelays[0].length - 1];
 		  var relevador2 = data.raspberries[0].status.relays[1][arregloRelays[1].length - 1];
 		  var relevador3 = data.raspberries[0].status.relays[2][arregloRelays[2].length - 1];
 		  var relevador4 = data.raspberries[0].status.relays[3][arregloRelays[3].length - 1];
-	    console.log(relevador1);
-	    console.log(relevador2);
-	    console.log(relevador3);
-	    console.log(relevador4);
 
 			relevador1 = (relevador1.value == true) ? 1 : 0;
 			relevador2 = (relevador2.value == true) ? 1 : 0;
