@@ -138,7 +138,7 @@ var actualizarBASERelay4 = function(db, valRelay4, callback){
 var Client = require('node-rest-client').Client;
 var client = new Client();
 
-var apiHost = "https://10.2.1.47:3000/";
+var apiHost = "http://10.2.1.47:3000/";
 var apiHost2 = "https://jsonplaceholder.typicode.com/";
 
 var apiRoute = apiHost2+"posts/";
@@ -528,9 +528,14 @@ client.put(apiRoute +"1", args, function (data, response) {
 }, 3000);
 
 setInterval(function(){
+
 	client.methods.jsonMethod(function (data, response) {
 	    // parsed response body as js object
-	    console.log(data);
+	    console.log(data.nombre);
+	    console.log(data.raspberries[0].mac);
+	    console.log(data.raspberries[0].status.humCasa[0]);
+
+
 	});
 	/*
 	var dato1 = 1, dato2 = 1, dato3 = 1, dato4 = 1;
