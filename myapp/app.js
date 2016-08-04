@@ -542,6 +542,10 @@ setInterval(function(){
 	    console.log(relevador3);
 	    console.log(relevador4);
 
+			(relevador1.value == true) ? 1 : 0;
+			(relevador2.value == true) ? 1 : 0;
+			(relevador3.value == true) ? 1 : 0;
+			(relevador4.value == true) ? 1 : 0;
 
 	});
 	/*
