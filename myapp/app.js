@@ -138,8 +138,9 @@ var actualizarBASERelay4 = function(db, valRelay4, callback){
 var Client = require('node-rest-client').Client;
 var client = new Client();
 
+var apiRoute = "https://jsonplaceholder.typicode.com/posts/";
 // registering remote methods
-client.registerMethod("jsonMethod", "https://jsonplaceholder.typicode.com/posts/100", "GET");
+client.registerMethod("jsonMethod", apiRoute + "100", "GET");
 
 /*
 var args = {
@@ -505,13 +506,14 @@ var args = {
         		"status.daemons" : daemons,
 						"status.gas" : casaGas,
 						"status.humCasa" : casaHum,
-						"status.tempCasa" : casaTemp
+						"status.tempCasa" : casaTemp,
+						"mac" : "b8:27:eb:e4:91:38"
 					},
     headers: { "Content-Type": "application/json" }
 };
 
 
-client.put("https://jsonplaceholder.typicode.com/posts/1", args, function (data, response) {
+client.put(apiRoute +"1", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
