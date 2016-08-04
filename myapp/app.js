@@ -535,7 +535,7 @@ setInterval(function(){
 	client.methods.jsonMethod(function (data, response) {
 	    // parsed response body as js object
 			console.log(data);
-
+			if(data){
 			var arregloRelays = data.raspberries[0].status.relays;
 
 		  var relevador1 = data.raspberries[0].status.relays[0][arregloRelays[0].length - 1];
@@ -569,8 +569,9 @@ setInterval(function(){
 				relay2.writeSync(relevador2);
 				relay3.writeSync(relevador3);
 				relay4.writeSync(relevador4);
-			});
 
+			});
+		}//if
 	});
 
 }, 1000);
