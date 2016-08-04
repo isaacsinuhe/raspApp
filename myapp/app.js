@@ -493,19 +493,26 @@ MongoClient.connect(url, function(err, db){
 	});
 });
 */
-/*
+
+//El siguiente codigo es para realizar el PUT a la pagina de la nube...
 var args = {
-    data: { "memoriaTotal" : memoriaTotal,
-	 					"memLibre" : memLibre},
+    data: { status.cpuUsage = cpuUsage,
+        		status.cpuTemp = cpuTemp,
+        		status.memUsada = memUsada,
+        		status.memLibre = memLibre,
+        		status.memCache = memCache,
+        		status.memBuffer = memBuffer,
+        		status.daemons = daemons
+					},
     headers: { "Content-Type": "application/json" }
 };
-*/
-/*
-client.post("https://jsonplaceholder.typicode.com/posts", args, function (data, response) {
+
+
+client.("https://jsonplaceholder.typicode.com/posts", args, function (data, response) {
     // parsed response body as js object
     console.log(data);
 });
-*/
+
 }, 3000);
 
 setInterval(function(){
