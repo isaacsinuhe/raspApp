@@ -138,9 +138,16 @@ var actualizarBASERelay4 = function(db, valRelay4, callback){
 var Client = require('node-rest-client').Client;
 var client = new Client();
 
-var apiRoute = "https://jsonplaceholder.typicode.com/posts/";
+var apiHost = "https://10.2.1.47:3000/";
+var apiHost2 = "https://jsonplaceholder.typicode.com/";
+
+var apiRoute = apiHost2+"posts/";
+var apiSensores = apiHost+"api/raspberry/";
+//var apiRoute = apiHost+"posts/";
+//var apiRoute = apiHost+"posts/";
+//var apiRoute = apiHost+"posts/";
 // registering remote methods
-client.registerMethod("jsonMethod", apiRoute + "100", "GET");
+client.registerMethod("jsonMethod", apiSensores+"b8:27:eb:e4:91:38", "GET");
 
 /*
 var args = {
